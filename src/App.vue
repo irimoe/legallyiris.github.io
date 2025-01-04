@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { useThemeStore } from '@/stores/theme'
-import { onMounted } from 'vue'
-import SelectMenu from '@/components/SelectMenu.vue'
-
-const themeStore = useThemeStore()
-
-onMounted(() => {
-  themeStore.initializeTheme()
-})
+import ThemeSelector from '@/components/ThemeSelector.vue'
 </script>
 
 <template>
@@ -20,7 +12,7 @@ onMounted(() => {
       <RouterLink class="nav-item" to="/uses">uses</RouterLink>
     </div>
     <div class="right">
-      <SelectMenu />
+      <ThemeSelector />
     </div>
   </nav>
 

@@ -8,7 +8,7 @@
       aria-controls="options-list"
       @blur="handleBlur"
     >
-      <span>{{ selectedOption.value }}</span>
+      <span>{{ selectedOption.label }}</span>
       <span class="arrow">&#9660;</span>
     </button>
     <ul
@@ -27,7 +27,8 @@
         :aria-selected="option.value === selectedOption.value"
         :tabindex="isOpen ? 0 : -1"
       >
-        {{ option.value }}
+        {{ option.label }}
+        <!-- Use label for display -->
       </li>
     </ul>
   </div>
@@ -39,47 +40,51 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
-import { useThemeStore, type Theme } from '@/stores/theme'
 
-const themeStore = useThemeStore()
+interface Option {
+  value: string
+  label: string
+}
+
+const props = defineProps<{
+  options: Option[]
+  modelValue: string
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [string]
+}>()
+
 const isOpen = ref(false)
 const buttonWidth = ref('100px')
 
-const options: { value: Theme }[] = [
-  { value: 'latte' },
-  { value: 'frappe' },
-  { value: 'macchiato' },
-  { value: 'mocha' },
-]
+const selectedOption = computed<Option>({
+  get: () => props.options.find((option) => option.value === props.modelValue) || props.options[0],
+  set: (newOption: Option) => emit('update:modelValue', newOption.value),
+})
+
+const selectOption = (option: Option) => {
+  selectedOption.value = option
+  isOpen.value = false
+}
 
 const toggleOpen = () => {
   const opened = !isOpen.value
   if (opened) {
     isOpen.value = opened
     const firstItem = document.querySelector('#options-list li')
-    if (firstItem);
-    ;(firstItem as HTMLElement).focus()
+    if (firstItem) (firstItem as HTMLElement).focus()
   } else {
     isOpen.value = opened
   }
 }
 
-const selectedOption = computed({
-  get: () => options.find((option) => option.value === themeStore.theme) || options[0],
-  set: (newOption: { value: string }) => themeStore.setTheme(newOption.value as Theme),
-})
-
-const selectOption = (option: { value: string }) => {
-  selectedOption.value = option
-  isOpen.value = false
-}
-
 onMounted(async () => {
   await nextTick()
 
-  const optionWidths = options.map((option) => {
+  const optionWidths = props.options.map((option) => {
     const testElement = document.createElement('span')
-    testElement.textContent = option.value
+    testElement.textContent = option.label
     document.body.appendChild(testElement)
     const width = testElement.offsetWidth + 20
     document.body.removeChild(testElement)
