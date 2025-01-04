@@ -1,0 +1,10 @@
+@use './base.scss';
+
+#app {
+  max-width: 1280px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  font-weight: normal;
+  overflow: hidden;
+}
