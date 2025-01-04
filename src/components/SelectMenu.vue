@@ -22,13 +22,16 @@
         v-for="option in options"
         :key="option.value"
         @click="selectOption(option)"
-        :class="{ selected: option.value === selectedOption.value }"
+        @mouseover="hoverOption(option)"
+        :class="{
+          selected: option.value === selectedOption.value,
+          hover: activeOnHover && option.value === hoverOptionValue.value,
+        }"
         role="option"
         :aria-selected="option.value === selectedOption.value"
         :tabindex="isOpen ? 0 : -1"
       >
         {{ option.label }}
-        <!-- Use label for display -->
       </li>
     </ul>
   </div>
@@ -49,6 +52,7 @@ interface Option {
 const props = defineProps<{
   options: Option[]
   modelValue: string
+  activeOnHover?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -57,6 +61,7 @@ const emit = defineEmits<{
 
 const isOpen = ref(false)
 const buttonWidth = ref('100px')
+const hoverOptionValue = ref<Option>({ value: '', label: '' })
 
 const selectedOption = computed<Option>({
   get: () => props.options.find((option) => option.value === props.modelValue) || props.options[0],
@@ -66,6 +71,7 @@ const selectedOption = computed<Option>({
 const selectOption = (option: Option) => {
   selectedOption.value = option
   isOpen.value = false
+  hoverOptionValue.value = { value: '', label: '' }
 }
 
 const toggleOpen = () => {
@@ -77,6 +83,12 @@ const toggleOpen = () => {
   } else {
     isOpen.value = opened
   }
+}
+
+const hoverOption = (option: Option) => {
+  if (!props.activeOnHover) return
+  hoverOptionValue.value = option
+  selectedOption.value = option
 }
 
 onMounted(async () => {
@@ -109,6 +121,9 @@ const handleKeyDown = (event: KeyboardEvent) => {
       return
     }
     ;(listItems[currentIndex] as HTMLElement).focus()
+    if (props.activeOnHover) {
+      hoverOption(props.options[currentIndex])
+    }
   } else if (event.key === 'Enter' || event.key === ' ') {
     toggleOpen()
     nextTick(() => {

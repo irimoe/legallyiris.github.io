@@ -17,5 +17,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <SelectMenu :options="themeOptions" v-model="themeStore.theme" />
+  <SelectMenu :options="themeOptions" v-model="themeStore.theme" :activeOnHover="true" />
 </template>
