@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import ThemeSelector from '@/components/ThemeSelector.vue'
+import Breadcrumb from '@/components/Breadcrumbs.vue'
 </script>
 
 <template>
@@ -31,7 +32,7 @@ import ThemeSelector from '@/components/ThemeSelector.vue'
     </div>
     <div class="pane-item content">
       <div class="pane-titlebar">
-        {{ $route.path }}
+        <Breadcrumb :route="$route" />
       </div>
       <div class="pane-main">
         <RouterView />
@@ -116,11 +117,12 @@ nav {
     transition: $transition;
 
     .pane-titlebar {
-      padding: 0.2rem 0.5rem;
       font-size: 0.875rem;
       font-weight: 800;
       color: hsla(var(--subtext0) / 1);
       border-bottom: 1px solid hsla(var(--subtext1) / 0.2);
+      overflow: hidden;
+      border-radius: 0.5rem 0.5rem 0 0;
     }
 
     .pane-main {
