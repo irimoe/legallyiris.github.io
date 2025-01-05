@@ -48,7 +48,9 @@ import ThemeSelector from '@/components/ThemeSelector.vue'
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'css/_variables.scss' as *;
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -70,7 +72,7 @@ nav {
     background: hsla(var(--surface0) / 0.5);
     border: 2px solid hsla(var(--text) / 0.2);
     outline: none;
-    transition: 0.2s;
+    transition: $transition;
 
     &:hover,
     &:focus-visible {
@@ -111,7 +113,7 @@ nav {
     border: 1px solid hsla(var(--subtext1) / 0.2);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: $transition;
 
     .pane-titlebar {
       padding: 0.2rem 0.5rem;
