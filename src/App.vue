@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import ThemeSelector from '@/components/ThemeSelector.vue'
-import Breadcrumb from '@/components/Breadcrumbs.vue'
+import Breadcrumb from '@/components/BreadCrumbs.vue'
 </script>
 
 <template>
