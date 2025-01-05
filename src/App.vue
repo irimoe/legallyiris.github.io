@@ -19,11 +19,14 @@ import ThemeSelector from '@/components/ThemeSelector.vue'
   <main class="pane">
     <div class="pane-item profile">
       <div class="pane-main">
-        <img src="https://placehold.co/200x200" alt="profile picture" />
+        <img src="/me.webp" alt="profile picture" />
         <h2>hi, i'm <span class="name">tayls.</span></h2>
-        <p>lorem ipsum dolor sit amet</p>
+        <div class="pronouns">it/its/itself</div>
 
-        <p>[LINKS]</p>
+        <p>
+          silly web developer & enjoyer of cattpuccin, the best colour scheme. i like making things
+          that look nice and feel good to use.
+        </p>
       </div>
     </div>
     <div class="pane-item content">
@@ -99,12 +102,12 @@ nav {
 
 .pane {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 3fr;
+  grid-template-columns: minmax(256px, 2fr) 4fr;
   gap: 1rem;
   align-items: start;
 
   .pane-item {
-    background: hsla(var(--crust) / 0.85);
+    background: hsla(var(--crust) / 0.75);
     border: 1px solid hsla(var(--subtext1) / 0.2);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
@@ -143,10 +146,17 @@ nav {
 
   h2 {
     font-size: 1.75rem;
+    margin: 0;
+    margin-block-end: 0;
     .name {
       font-weight: 800;
       color: hsla(var(--text) / 1);
     }
+  }
+
+  .pronouns {
+    font-size: 0.75rem;
+    color: hsla(var(--subtext0) / 0.8);
   }
 
   p {
