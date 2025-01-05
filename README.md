@@ -9,4 +9,4 @@ website as long as you provide the source code and any modifications you make to
 
 all files are licensed under the gnu agplv3 license unless explicitly stated otherwise.
 
-you can find a copy of the license in the [`LICENSE`](LICENSE) file.
+you can find a copy of the license in the [`COPYING`](COPYING) file.
