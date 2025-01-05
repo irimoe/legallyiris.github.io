@@ -8,3 +8,33 @@
   font-weight: normal;
   overflow: hidden;
 }
+
+main.page {
+  h1,
+  h2,
+  h3 {
+    color: hsla(var(--text) / 1);
+    font-weight: 900;
+  }
+
+  p {
+    color: hsla(var(--text) / 0.9);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid hsla(var(--text) / 0.1);
+  margin: 0.5rem 0;
+}
+
+a {
+  color: hsla(var(--blue) / 1);
+  text-decoration: none;
+}

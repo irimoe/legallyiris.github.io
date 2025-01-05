@@ -22,6 +22,7 @@ const router = createRouter({
       path: '/projects',
       name: 'projects',
       component: () => import('../views/ProjectsView.vue'),
+      children: [{ path: '/vuecuit', component: () => import('../views/Projects/Vuecuit.vue') }],
     },
     {
       path: '/uses',
