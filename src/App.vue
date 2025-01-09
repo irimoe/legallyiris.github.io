@@ -2,15 +2,20 @@
 import { RouterLink, RouterView } from 'vue-router'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import Breadcrumb from '@/components/BreadCrumbs.vue'
+import router from './router'
 </script>
 
 <template>
   <nav>
     <div class="left">
-      <RouterLink class="nav-item" to="/home">home</RouterLink>
-      <RouterLink class="nav-item" to="/writing">writing</RouterLink>
-      <RouterLink class="nav-item" to="/projects">projects</RouterLink>
-      <RouterLink class="nav-item" to="/uses">uses</RouterLink>
+      <RouterLink
+        v-for="route in router.getRoutes().filter((route) => route.meta.nav)"
+        :key="route.path"
+        class="nav-item"
+        :to="route.path"
+      >
+        {{ route.name }}
+      </RouterLink>
     </div>
     <div class="right">
       <ThemeSelector />
