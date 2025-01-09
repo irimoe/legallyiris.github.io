@@ -1,8 +1,41 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  faBluesky,
+  faGitAlt,
+  faGithub,
+  type IconDefinition,
+} from '@fortawesome/free-brands-svg-icons'
+
+import Tooltip from '@/components/ToolTip.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import Breadcrumb from '@/components/BreadCrumbs.vue'
 import router from './router'
+
+type Link = {
+  name: string
+  href: string
+  icon: IconDefinition
+}
+
+const links: Link[] = [
+  {
+    name: 'github',
+    href: 'https://github.com/ttaylorr',
+    icon: faGithub,
+  },
+  {
+    name: 'bluesky',
+    href: 'https://bsky.app/profile/0xttaylor.bsky.social',
+    icon: faBluesky,
+  },
+  {
+    name: 'codeberg',
+    href: 'https://codeberg.org/ttaylorr',
+    icon: faGitAlt,
+  },
+]
 </script>
 
 <template>
@@ -33,6 +66,24 @@ import router from './router'
           silly web developer & enjoyer of cattpuccin, the best colour scheme. i like making things
           that look nice and feel good to use.
         </p>
+
+        <div class="links">
+          <Tooltip v-for="link in links" :key="link.name" :text="link.name">
+            <template #default="{ show, hide }">
+              <a
+                :href="link.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                @mouseenter="show"
+                @mouseleave="hide"
+                @focus="show"
+                @blur="hide"
+              >
+                <FontAwesomeIcon :icon="link.icon" />
+              </a>
+            </template>
+          </Tooltip>
+        </div>
       </div>
     </div>
     <div class="pane-item content">
@@ -104,6 +155,42 @@ nav {
         background: hsla(var(--surface1) / 1);
         border: 2px solid hsla(var(--flamingo) / 1);
       }
+    }
+  }
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+    background: hsla(var(--surface0) / 0.5);
+    color: hsla(var(--text) / 1);
+    border: 2px solid hsla(var(--text) / 0.1);
+    outline: none;
+    transition: $transition;
+
+    &:hover,
+    &:focus-visible {
+      background: hsla(var(--surface0) / 0.7);
+      border: 2px solid hsla(var(--pink) / 0.7);
+    }
+
+    &:active {
+      background: hsla(var(--surface0) / 1);
+      border: 2px solid hsla(var(--pink) / 0.8);
+      scale: 0.95;
     }
   }
 }
