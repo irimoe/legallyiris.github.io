@@ -14,5 +14,10 @@
       this is my personal website. it's a place for me to write about things i'm interested in,
       share projects i'm working on, and talk about the tools i use.
     </p>
+
+    <h2>say meow</h2>
+    <p>
+      send cat sounds to my email at <a href="mailto:ttaylor@disroot,org">ttaylor@disroot.org</a>
+    </p>
   </main>
 </template>

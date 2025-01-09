@@ -19,13 +19,25 @@ const updated = new Date(updatedMs).toLocaleDateString('en-GB', {
         <li>my phone is a google pixel 7a running on calyxos</li>
         <li>
           my desktop is a modified prebuilt dell optiplex 7010, running with an i5-3470, 16gb of
-          ram, and an amd radeon rx 6400. it runs arch linux with the niri wayland compositor.
+          ram, and an amd radeon rx 6400.
         </li>
         <li>
           i have two monitors, both 1080p@60hz. one is a dell p2217h and the other is a dell... some
           other model with a weird name.
         </li>
         <li>my keyboard is a keyboard, mouse is a mouse, etc.</li>
+      </ul>
+    </section>
+
+    <section id="software">
+      <h3>software</h3>
+      <ul>
+        <li>my pc runs arch linux with the niri wayland compositor.</li>
+        <li>i use the foot terminal emulator with bash and the tmux terminal multiplexer.</li>
+        <li>
+          i use the zed text editor the vast majority of the time, but also use jetbrains ide's.
+        </li>
+        <li>i use firefox as my web browser.</li>
       </ul>
     </section>
   </main>
