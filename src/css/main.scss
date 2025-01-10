@@ -1,4 +1,5 @@
 @use './base.scss';
+@use './_variables.scss' as *;
 
 #app {
   max-width: 1280px;
@@ -37,4 +38,38 @@ hr {
 a {
   color: hsla(var(--blue) / 1);
   text-decoration: none;
+}
+
+.pane {
+  display: grid;
+  grid-template-columns: minmax(256px, 2fr) 4fr;
+  gap: 1rem;
+  align-items: start;
+
+  .pane-item {
+    background: hsla(var(--crust) / 0.75);
+    border: 1px solid hsla(var(--subtext1) / 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    transition: $transition;
+
+    .pane-titlebar {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: hsla(var(--subtext0) / 1);
+      border-bottom: 1px solid hsla(var(--subtext1) / 0.2);
+      overflow: hidden;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .pane-main {
+      padding: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .pane {
+    grid-template-columns: 1fr;
+  }
 }
