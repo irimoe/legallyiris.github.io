@@ -3,25 +3,47 @@ import { RouterLink, RouterView } from 'vue-router'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faBluesky,
-  faGitAlt,
   faGithub,
+  faDiscord,
+  faGitAlt,
   type IconDefinition,
 } from '@fortawesome/free-brands-svg-icons'
+import { faMusic } from '@fortawesome/free-solid-svg-icons'
+import codebergSvg from './assets/codeberg.svg?raw'
 
 import Tooltip from '@/components/ToolTip.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import Breadcrumb from '@/components/BreadCrumbs.vue'
 import router from './router'
 
-type Link = {
-  name: string
-  href: string
-  icon: IconDefinition
-}
+type Link =
+  | {
+      name: string
+      href: string
+      isLocal?: false | undefined
+      icon: IconDefinition
+    }
+  | {
+      name: string
+      href: string
+      isLocal: true
+      icon: string
+    }
 
 const links: Link[] = [
   {
-    name: 'github',
+    name: 'git.gay',
+    href: 'https://git.gay/0xttaylor',
+    icon: faGitAlt,
+  },
+  {
+    name: 'codeberg',
+    href: 'https://codeberg.org/ttaylorr',
+    icon: codebergSvg,
+    isLocal: true,
+  },
+  {
+    name: 'github (not used)',
     href: 'https://github.com/ttaylorr',
     icon: faGithub,
   },
@@ -31,9 +53,14 @@ const links: Link[] = [
     icon: faBluesky,
   },
   {
-    name: 'codeberg',
-    href: 'https://codeberg.org/ttaylorr',
-    icon: faGitAlt,
+    name: 'discord',
+    href: 'https://discord.gg/UwrY8qq4',
+    icon: faDiscord,
+  },
+  {
+    name: 'listenbrainz',
+    href: 'https://listenbrainz.org/user/ttaylor-st/',
+    icon: faMusic,
   },
 ]
 </script>
@@ -79,7 +106,8 @@ const links: Link[] = [
                 @focus="show"
                 @blur="hide"
               >
-                <FontAwesomeIcon :icon="link.icon" />
+                <FontAwesomeIcon :icon="link.icon" v-if="!link.isLocal" />
+                <div v-if="link.isLocal" class="icon" v-html="link.icon" aria-hidden="true" />
               </a>
             </template>
           </Tooltip>
@@ -169,6 +197,12 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     padding: 0.5rem;
     width: 2rem;
