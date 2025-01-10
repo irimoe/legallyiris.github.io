@@ -24,7 +24,7 @@ const router = createRouter({
       path: '/projects',
       name: 'projects',
       children: [
-        { path: '', component: () => import('../views/ProjectsView.vue') },
+        { name: 'root', path: '', component: () => import('../views/ProjectsView.vue') },
         { path: 'vuecuit', component: () => import('../views/Projects/VuecuitView.vue') },
       ],
       meta: { nav: true },
