@@ -112,6 +112,10 @@ const handleKeyDown = (event: KeyboardEvent) => {
     let currentIndex = Array.from(listItems).indexOf(event.target as HTMLElement)
     if (currentIndex === -1) return
 
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault()
+    }
+
     if (event.key === 'ArrowDown') {
       currentIndex = (currentIndex + 1) % listItems.length
     } else if (event.key === 'ArrowUp') {
