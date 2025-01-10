@@ -38,13 +38,13 @@ const links: Link[] = [
   },
   {
     name: 'codeberg',
-    href: 'https://codeberg.org/ttaylorr',
+    href: 'https://codeberg.org/ttaylor',
     icon: codebergSvg,
     isLocal: true,
   },
   {
     name: 'github (not used)',
-    href: 'https://github.com/ttaylorr',
+    href: 'https://github.com/ttaylor-st',
     icon: faGithub,
   },
   {
