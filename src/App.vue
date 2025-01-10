@@ -131,10 +131,12 @@ const links: Link[] = [
 @use 'css/_variables.scss' as *;
 
 nav {
+  position: fixed;
   display: flex;
   justify-content: space-between;
+  width: calc(100% - 2rem);
   gap: 0.25rem;
-  margin-bottom: 1rem;
+  z-index: 500;
 
   .left,
   .right {
@@ -150,6 +152,7 @@ nav {
     text-decoration: none;
     background: hsla(var(--surface0) / 0.5);
     border: 2px solid hsla(var(--text) / 0.2);
+    backdrop-filter: blur(10px);
     outline: none;
     transition: $transition;
 
@@ -179,6 +182,10 @@ nav {
       }
     }
   }
+}
+
+main {
+  margin-top: 3rem;
 }
 
 .links {
