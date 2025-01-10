@@ -1,6 +1,6 @@
 <template>
   <div class="tooltip-container">
-    <slot :show="show" :hide="hide"></slot>
+    <slot :show="show" :hide="hide" class="tooltip-slot" />
     <div class="tooltip" :class="{ visible: isVisible }">
       {{ text }}
     </div>
@@ -45,25 +45,25 @@ const hide = () => {
 .tooltip {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
   padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 50rem;
   font-size: 0.75rem;
   white-space: nowrap;
 
-  background: hsla(var(--surface0) / 0.5);
+  background: hsl(var(--surface0));
   border: 1px solid hsla(var(--overlay2) / 0.5);
-  color: hsla(var(--text) / 0.9);
-  backdrop-filter: blur(0.25rem);
+  color: hsla(var(--text) / 1);
+  transform: translateX(-50%) scale(0.5) translateY(-200%);
+  filter: blur(0.25rem);
 
   opacity: 0;
-  bottom: calc(100%);
-
   visibility: hidden;
+  pointer-events: none;
   transition: $transition;
 
   &.visible {
-    bottom: calc(100% + 0.5rem);
+    transform: translateX(-50%) scale(1) translateY(-225%);
+    filter: blur(0);
     opacity: 1;
     visibility: visible;
   }
