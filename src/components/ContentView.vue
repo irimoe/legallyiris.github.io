@@ -30,7 +30,9 @@ watch(
   (to, from) => {
     if (!from) return
 
+    // @ts-expect-error ts is lying.
     if (window.navigation) {
+      // @ts-expect-error ts is lying.
       const navType = window.navigation.currentEntry?.navigationType
       if (navType === 'back') {
         currentTransition.value = 'slide-right'
