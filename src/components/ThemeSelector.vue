@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme'
 import { onMounted } from 'vue'
+import { faPalette } from '@fortawesome/free-solid-svg-icons'
+
 import SelectMenu from '@/components/SelectMenu.vue'
+import { useThemeStore } from '@/stores/theme'
 
 const themeStore = useThemeStore()
 const themeOptions = [
@@ -17,5 +19,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <SelectMenu :options="themeOptions" v-model="themeStore.theme" :activeOnHover="true" />
+  <SelectMenu
+    :options="themeOptions"
+    v-model="themeStore.theme"
+    :activeOnHover="true"
+    :icon="faPalette"
+  />
 </template>

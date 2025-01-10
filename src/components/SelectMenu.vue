@@ -1,22 +1,32 @@
 <template>
-  <div class="custom-select" role="combobox" :aria-expanded="isOpen">
+  <div class="custom-select" ref="selectContainer" role="combobox" :aria-expanded="isOpen">
     <button
-      :style="{ width: buttonWidth }"
+      :style="{ width: icon ? 'auto' : buttonWidth }"
       :class="{ 'select-button': true, open: isOpen }"
       @click="toggleOpen"
       aria-haspopup="listbox"
       aria-controls="options-list"
       @blur="handleBlur"
     >
-      <span>{{ selectedOption.label }}</span>
-      <span class="arrow">&#9660;</span>
+      <span v-if="icon" class="icon">
+        <FontAwesomeIcon :icon="icon" />
+      </span>
+      <template v-else>
+        <span>{{ selectedOption.label }}</span>
+        <span class="arrow">&#9660;</span>
+      </template>
     </button>
     <ul
       id="options-list"
+      ref="dropdownMenu"
       role="listbox"
       class="options-list"
       @keydown.stop="handleKeyDown"
       :class="{ open: isOpen }"
+      :style="{
+        width: buttonWidth,
+        ...dropdownPosition,
+      }"
     >
       <li
         v-for="option in options"
@@ -42,7 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 interface Option {
   value: string
@@ -53,11 +65,16 @@ const props = defineProps<{
   options: Option[]
   modelValue: string
   activeOnHover?: boolean
+  icon?: IconDefinition | string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [string]
 }>()
+
+const selectContainer = ref<HTMLElement | null>(null)
+const dropdownMenu = ref<HTMLElement | null>(null)
+const dropdownPosition = ref({})
 
 const isOpen = ref(false)
 const buttonWidth = ref('100px')
@@ -91,8 +108,44 @@ const hoverOption = (option: Option) => {
   selectedOption.value = option
 }
 
+const updateDropdownPosition = () => {
+  if (!isOpen.value || !selectContainer.value || !dropdownMenu.value) return
+
+  const containerRect = selectContainer.value.getBoundingClientRect()
+  const dropdownRect = dropdownMenu.value.getBoundingClientRect()
+  const viewportHeight = window.innerHeight
+  const viewportWidth = window.innerWidth
+
+  const spaceBelow = viewportHeight - containerRect.bottom
+  const spaceAbove = containerRect.top
+  const spaceRight = viewportWidth - containerRect.left
+
+  const newPosition: Record<string, string> = {}
+
+  if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) {
+    newPosition.top = 'auto'
+    newPosition.bottom = 'calc(100% + 0.5rem)'
+  } else {
+    newPosition.top = 'calc(100% + 0.5rem)'
+    newPosition.bottom = 'auto'
+  }
+
+  if (containerRect.left + dropdownRect.width > viewportWidth) {
+    newPosition.left = 'auto'
+    newPosition.right = '0'
+  } else {
+    newPosition.left = '0'
+    newPosition.right = 'auto'
+  }
+
+  dropdownPosition.value = newPosition
+}
+
 onMounted(async () => {
   await nextTick()
+
+  window.addEventListener('scroll', updateDropdownPosition, true)
+  window.addEventListener('resize', updateDropdownPosition)
 
   const optionWidths = props.options.map((option) => {
     const testElement = document.createElement('span')
@@ -104,6 +157,11 @@ onMounted(async () => {
   })
 
   buttonWidth.value = `${Math.max(...optionWidths)}px`
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateDropdownPosition, true)
+  window.removeEventListener('resize', updateDropdownPosition)
 })
 
 const handleKeyDown = (event: KeyboardEvent) => {
@@ -145,6 +203,13 @@ const handleBlur = (event: FocusEvent) => {
     isOpen.value = false
   }
 }
+
+watch(isOpen, async (newValue) => {
+  if (newValue) {
+    await nextTick()
+    updateDropdownPosition()
+  }
+})
 </script>
 
 <style scoped>
@@ -177,17 +242,17 @@ button.select-button {
   color: var(--text);
   cursor: pointer;
   width: 100%;
+  height: 100%;
   text-align: left;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   outline: none;
   font-size: 0.75rem;
 }
 
 .options-list {
   position: absolute;
-  top: 60%;
-  left: 0;
   background: hsla(var(--surface0) / 1);
   border-radius: 0.5rem;
   list-style: none;
