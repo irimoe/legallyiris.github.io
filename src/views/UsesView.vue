@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const updatedMs = 1736022517 * 1000
+const updatedMs = 1736540206 * 1000
 const updated = new Date(updatedMs).toLocaleDateString('en-GB', {
   year: 'numeric',
   month: 'long',
@@ -39,6 +39,11 @@ const updated = new Date(updatedMs).toLocaleDateString('en-GB', {
         </li>
         <li>i use firefox as my web browser.</li>
       </ul>
+
+      <img
+        src="/desktop/screenshot.png"
+        alt="screenshot of my desktop with a terminal open on the left and the zed text editor open on the right with the cattpuccin mocha theme and this website's source code open"
+      />
     </section>
   </main>
 </template>
@@ -56,8 +61,15 @@ h3 {
 ul {
   padding: 0 0 0 1rem;
   li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
     font-size: 0.9rem;
   }
+}
+
+img {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid hsla(var(--text) / 0.5);
+  margin-top: 1rem;
 }
 </style>
