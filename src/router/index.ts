@@ -17,14 +17,21 @@ const router = createRouter({
     {
       path: '/writing',
       name: 'writing',
-      component: () => import('../views/WritingView.vue'),
       meta: { nav: true },
+      children: [
+        { name: 'writing-root', path: '', component: () => import('../views/WritingView.vue') },
+        {
+          path: ':slug',
+          name: 'post',
+          component: () => import('../views/PostView.vue'),
+        },
+      ],
     },
     {
       path: '/projects',
       name: 'projects',
       children: [
-        { name: 'root', path: '', component: () => import('../views/ProjectsView.vue') },
+        { name: 'projects-root', path: '', component: () => import('../views/ProjectsView.vue') },
         { path: 'vuecuit', component: () => import('../views/Projects/VuecuitView.vue') },
       ],
       meta: { nav: true },
