@@ -47,7 +47,7 @@
   </div>
 
   <teleport to="body">
-    <div @click="toggleOpen" :class="{ backdrop: true, open: isOpen }" />
+    <div @click="toggleOpen" :class="{ backdrop: true, open: false }" />
   </teleport>
 </template>
 
@@ -141,11 +141,18 @@ const updateDropdownPosition = () => {
   dropdownPosition.value = newPosition
 }
 
+const clickOutside = (event: MouseEvent) => {
+  if (!isOpen.value) return
+  if (!selectContainer.value?.contains(event.target as Node)) {
+    isOpen.value = false
+  }
+}
+
 onMounted(async () => {
   await nextTick()
-
   window.addEventListener('scroll', updateDropdownPosition, true)
   window.addEventListener('resize', updateDropdownPosition)
+  window.addEventListener('click', clickOutside)
 
   const optionWidths = props.options.map((option) => {
     const testElement = document.createElement('span')
@@ -162,6 +169,7 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener('scroll', updateDropdownPosition, true)
   window.removeEventListener('resize', updateDropdownPosition)
+  window.removeEventListener('click', clickOutside)
 })
 
 const handleKeyDown = (event: KeyboardEvent) => {
