@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faShare } from '@fortawesome/free-solid-svg-icons'
+
 import Tooltip from './ToolTip.vue'
+import SelectMenu from './SelectMenu.vue'
 
 const props = defineProps<{
   title: string
@@ -20,41 +21,45 @@ const canShare = computed(() => {
   return true
 })
 
-const showCopied = ref(false)
+const option = ref('')
 
-const share = async () => {
-  if (canShare.value) {
-    try {
-      await navigator.share(shareData.value)
-    } catch (err) {
-      if (err instanceof Error && err.name !== 'AbortError') {
-        console.error('Error sharing:', err)
+const options = [
+  { value: 'copy', label: 'copy link' },
+  { value: 'system', label: 'system share' },
+  { value: 'bluesky', label: 'bluesky' },
+]
+
+const share = async (option: string) => {
+  switch (option) {
+    case 'copy':
+      await navigator.clipboard.writeText(shareData.value.url)
+      break
+    case 'system':
+      if (!canShare.value) {
+        alert('This feature is not supported on your device')
+        return
       }
-    }
-  } else {
-    await navigator.clipboard.writeText(props.url)
-    showCopied.value = true
-    setTimeout(() => {
-      showCopied.value = false
-    }, 2000)
+      await navigator.share(shareData.value)
+      break
+    case 'bluesky':
+      window.open(
+        `https://bsky.app/intent/compose?text=${encodeURIComponent(
+          `Check out "${shareData.value.title}" at ${shareData.value.url}`,
+        )}`,
+      )
+      break
   }
 }
 </script>
 
 <template>
-  <Tooltip :text="showCopied ? 'Copied!' : canShare ? 'Share' : 'Copy link'">
-    <template #default="{ show, hide }">
-      <button
-        class="share-button"
-        @click="share"
-        @mouseenter="show"
-        @mouseleave="hide"
-        @focus="show"
-        @blur="hide"
-      >
-        <FontAwesomeIcon :icon="faShare" />
-      </button>
-    </template>
+  <Tooltip text="Share">
+    <SelectMenu
+      :options="options"
+      v-model="option"
+      :icon="faShare"
+      @update:model-value="share(option)"
+    />
   </Tooltip>
 </template>
 
