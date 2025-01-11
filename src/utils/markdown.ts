@@ -13,7 +13,9 @@ const md = MarkdownIt({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(str, { language: lang }).value
-      } catch (__) {}
+      } catch (err) {
+        void err
+      }
     }
 
     return ''
