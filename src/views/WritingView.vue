@@ -53,9 +53,14 @@ postsStore.loadPosts()
     background $transition,
     border-color $transition;
 
+  a {
+    outline: none;
+  }
+
   h3 {
     margin: 0;
     font-size: 1.25rem;
+    color: hsla(var(--subtext0) / 1);
   }
 
   .post-meta {
@@ -66,9 +71,13 @@ postsStore.loadPosts()
     margin: 0.25rem 0;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     background: hsla(var(--mantle) / 1);
     border-color: hsla(var(--overlay0) / 0.8);
+    h3 {
+      color: hsla(var(--text) / 1);
+    }
   }
 }
 </style>
