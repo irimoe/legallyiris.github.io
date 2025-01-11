@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePostsStore } from '@/stores/posts'
 import { renderMarkdown } from '@/utils/markdown'
+import ShareButton from '@/components/ShareButton.vue'
 
 const route = useRoute()
 const postsStore = usePostsStore()
 const renderedContent = ref('')
 const post = ref(null)
+
+const shareUrl = computed(() => {
+  return `${window.location.origin}${route.fullPath}`
+})
 
 onMounted(async () => {
   await postsStore.loadPosts()
@@ -20,7 +25,10 @@ onMounted(async () => {
   <main class="page">
     <article v-if="post" class="post">
       <header>
-        <h1>{{ post.title }}</h1>
+        <div class="post-header">
+          <h1>{{ post.title }}</h1>
+          <ShareButton :title="post.title" :url="shareUrl" />
+        </div>
         <div class="post-meta">
           <time>{{ new Date(post.date!).toLocaleDateString() }}</time>
           <span>~{{ post.readingTime }}</span>
@@ -40,9 +48,16 @@ onMounted(async () => {
 
 .post {
   header {
-    h1 {
-      margin: 0;
-      font-size: 2rem;
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+
+      h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
     }
 
     .post-meta {
