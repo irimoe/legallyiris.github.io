@@ -47,6 +47,7 @@ a {
   align-items: start;
 
   .pane-item {
+    backdrop-filter: blur(1rem);
     background: hsla(var(--crust) / 0.75);
     border: 1px solid hsla(var(--subtext1) / 0.2);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
