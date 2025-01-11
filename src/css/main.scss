@@ -1,5 +1,6 @@
 @use './base.scss';
 @use './_variables.scss' as *;
+@use './_syntax.scss';
 
 #app {
   max-width: 1280px;

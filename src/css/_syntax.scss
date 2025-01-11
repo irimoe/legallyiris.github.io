@@ -1,0 +1,63 @@
+pre {
+  color: hsl(var(--text));
+  background: hsla(var(--mantle) / 0.5);
+
+  .hljs-comment,
+  .hljs-quote {
+    color: hsl(var(--overlay0));
+    font-style: italic;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-addition {
+    color: hsl(var(--mauve));
+  }
+
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-attribute,
+  .hljs-tag,
+  .hljs-name,
+  .hljs-regexp,
+  .hljs-link,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: hsl(var(--blue));
+  }
+
+  .hljs-number,
+  .hljs-meta,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-literal,
+  .hljs-type,
+  .hljs-params {
+    color: hsl(var(--peach));
+  }
+
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet {
+    color: hsl(var(--green));
+  }
+
+  .hljs-title,
+  .hljs-section {
+    color: hsl(var(--yellow));
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag {
+    color: hsl(var(--pink));
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: bold;
+  }
+}
