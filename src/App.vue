@@ -43,13 +43,8 @@ const links: Link[] = [
     isLocal: true,
   },
   {
-    name: 'github (not used)',
-    href: 'https://github.com/ttaylor-st',
-    icon: faGithub,
-  },
-  {
     name: 'bluesky',
-    href: 'https://bsky.app/profile/0xttaylor.bsky.social',
+    href: 'https://bsky.app/profile/ttaylor.xyz',
     icon: faBluesky,
   },
   {
