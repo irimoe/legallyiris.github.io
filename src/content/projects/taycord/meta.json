@@ -1,0 +1,10 @@
+{
+  "title": "taycord",
+  "description": "a third party discord client written in vuejs",
+  "status": "active",
+  "tech": ["typescript", "vue"],
+  "links": {
+    "source": "https://git.gay/0xttaylor/taycord",
+    "website": null
+  }
+}
