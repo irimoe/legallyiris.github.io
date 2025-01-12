@@ -40,7 +40,7 @@ export const useProjectsStore = defineStore('projects', () => {
       const screenshots = Object.entries(screenshotFiles)
         .filter(([path]) => path.includes(`/${projectSlug}/`))
         .map(([path, moduleUrl]) => ({
-          url: moduleUrl as string, // This will be the actual URL
+          url: moduleUrl as string,
           alt: path.split('/').pop()?.split('.')[0] || '',
         }))
 

@@ -34,7 +34,7 @@ postsStore.loadPosts()
 </template>
 
 <style scoped lang="scss">
-@use '../css/variables.scss' as *;
+@use '../../css/variables.scss' as *;
 
 .posts {
   display: grid;

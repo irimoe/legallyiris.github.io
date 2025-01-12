@@ -44,7 +44,7 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-@use '../css/variables.scss' as *;
+@use '../../css/variables.scss' as *;
 
 .post {
   header {

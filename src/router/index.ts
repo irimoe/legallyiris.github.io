@@ -19,11 +19,15 @@ const router = createRouter({
       name: 'writing',
       meta: { nav: true },
       children: [
-        { name: 'writing-root', path: '', component: () => import('../views/WritingView.vue') },
+        {
+          name: 'writing-root',
+          path: '',
+          component: () => import('../views/Writing/WritingRoot.vue'),
+        },
         {
           path: ':slug',
           name: 'post',
-          component: () => import('../views/PostView.vue'),
+          component: () => import('../views/Writing/_slug.vue'),
         },
       ],
     },
