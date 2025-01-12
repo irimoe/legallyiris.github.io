@@ -14,7 +14,6 @@ import codebergSvg from './assets/codeberg.svg?raw'
 import ContentView from '@/components/ContentView.vue'
 import Tooltip from '@/components/ToolTip.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
-import Breadcrumb from '@/components/BreadCrumbs.vue'
 import router from './router'
 
 type Link =

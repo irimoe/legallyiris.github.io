@@ -8,19 +8,20 @@ export const usePostsStore = defineStore('posts', () => {
 
   const loadPosts = async () => {
     const postFiles = import.meta.glob('../content/posts/*.md', {
+      query: '?raw',
+      import: 'default',
       eager: true,
-      as: 'raw',
     })
 
     const loadedPosts = Object.entries(postFiles).map(([path, content]) => {
-      const [, frontmatter, ...contentParts] = content.split('---')
+      const [, frontmatter, ...contentParts] = (content as string).split('---')
       const markdown = contentParts.join('---').trim()
 
       const frontmatterData = Object.fromEntries(
         frontmatter
           .trim()
           .split('\n')
-          .map((line) => {
+          .map((line: string) => {
             const [key, ...valueParts] = line.split(':')
             return [key.trim(), valueParts.join(':').trim()]
           }),

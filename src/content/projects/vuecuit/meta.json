@@ -1,0 +1,10 @@
+{
+  "title": "vuecuit",
+  "description": "a mobile client for discuit.net and compatible apis",
+  "status": "active",
+  "tech": ["vue", "typescript"],
+  "links": {
+    "source": "https://codeberg.org/vuecuit/vuecuit",
+    "website": "https://vuecuit.codeberg.page"
+  }
+}
