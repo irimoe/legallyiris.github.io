@@ -2,7 +2,7 @@
   "title": "facet",
   "description": "facet was a discord user app intended for plural systems to express themselves universally without requiring every server to have a plural bot",
   "status": "archived",
-  "tech": ["typescript", "discord.js"],
+  "tech": ["typescript", "discord.js", "sqlite"],
   "links": {
     "source": "https://git.gay/0xttaylor/facet",
     "website": null
