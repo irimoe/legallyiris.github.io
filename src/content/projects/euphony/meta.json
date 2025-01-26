@@ -1,0 +1,10 @@
+{
+  "title": "euphony",
+  "description": "a third party client for discord, written in vue and typescript",
+  "status": "active",
+  "tech": ["typescript", "vue"],
+  "links": {
+    "source": "https://git.gay/0xttaylor/euphony",
+    "website": null
+  }
+}

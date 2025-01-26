@@ -1,7 +1,11 @@
 ---
 title: taycord
-description: a third party discord client written in vuejs
+description: a third party discord client written in vuejs. abandoned in favor of euphony
 ---
+
+## archived!
+
+taycord is no longer in development, and has been replaced by [euphony](./euphony).
 
 ## about
 
