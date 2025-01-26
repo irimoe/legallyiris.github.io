@@ -165,5 +165,14 @@ article {
     border-radius: 0.25rem;
     font-size: 0.9em;
   }
+
+  :deep(blockquote) {
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 4px solid hsl(var(--blue));
+    background: hsla(var(--blue) / 0.1);
+    color: hsl(var(--blue));
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
 }
 </style>
