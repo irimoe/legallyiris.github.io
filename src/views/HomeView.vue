@@ -4,9 +4,9 @@
   <main class="page">
     <h2>who dis?</h2>
     <p>
-      i'm tayl{or, s}. i'm a web and rust developer. i like making web applications that are
-      visually appealing and feel good to use, and enjoy banging my head against the wall when
-      writing rust code.
+      i'm iris. i'm a web and rust developer. i like making web applications that are visually
+      appealing and feel good to use, and enjoy banging my head against the wall when writing rust
+      code.
     </p>
 
     <h2>what's this?</h2>
@@ -16,8 +16,6 @@
     </p>
 
     <h2>say meow</h2>
-    <p>
-      send cat sounds to my email at <a href="mailto:ttaylor@disroot,org">ttaylor@disroot.org</a>
-    </p>
+    <p>send cat sounds to my email at <a href="mailto:iris@heyiris.dev">iris@heyiris.dev</a></p>
   </main>
 </template>

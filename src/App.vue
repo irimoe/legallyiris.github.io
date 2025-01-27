@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-  faBluesky,
-  faGithub,
-  faDiscord,
-  faGitAlt,
-  type IconDefinition,
-} from '@fortawesome/free-brands-svg-icons'
+import { faBluesky, faGitAlt, type IconDefinition } from '@fortawesome/free-brands-svg-icons'
 import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import codebergSvg from './assets/codeberg.svg?raw'
 
@@ -33,24 +27,13 @@ type Link =
 const links: Link[] = [
   {
     name: 'git.gay',
-    href: 'https://git.gay/0xttaylor',
+    href: 'https://git.gay/iris',
     icon: faGitAlt,
   },
   {
-    name: 'codeberg',
-    href: 'https://codeberg.org/ttaylor',
-    icon: codebergSvg,
-    isLocal: true,
-  },
-  {
     name: 'bluesky',
-    href: 'https://bsky.app/profile/ttaylor.xyz',
+    href: 'https://bsky.app/profile/heyiris.dev',
     icon: faBluesky,
-  },
-  {
-    name: 'discord',
-    href: 'https://discord.gg/UwrY8qq4',
-    icon: faDiscord,
   },
   {
     name: 'listenbrainz',
@@ -81,7 +64,7 @@ const links: Link[] = [
     <div class="pane-item profile">
       <div class="pane-main">
         <img src="/me.webp" alt="profile picture" />
-        <h2>hi, i'm <span class="name">tayls.</span></h2>
+        <h2>hi, i'm <span class="name">iris.</span></h2>
         <div class="pronouns">it/its/itself</div>
 
         <p>
