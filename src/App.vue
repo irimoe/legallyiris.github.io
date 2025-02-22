@@ -1,46 +1,50 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faBluesky, faGitAlt, type IconDefinition } from '@fortawesome/free-brands-svg-icons'
-import { faMusic } from '@fortawesome/free-solid-svg-icons'
-import codebergSvg from './assets/codeberg.svg?raw'
+import {
+	type IconDefinition,
+	faBluesky,
+	faGitAlt,
+} from "@fortawesome/free-brands-svg-icons";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { RouterLink, RouterView } from "vue-router";
+import codebergSvg from "./assets/codeberg.svg?raw";
 
-import ContentView from '@/components/ContentView.vue'
-import Tooltip from '@/components/ToolTip.vue'
-import ThemeSelector from '@/components/ThemeSelector.vue'
-import router from './router'
+import ContentView from "@/components/ContentView.vue";
+import ThemeSelector from "@/components/ThemeSelector.vue";
+import Tooltip from "@/components/ToolTip.vue";
+import router from "./router";
 
 type Link =
-  | {
-      name: string
-      href: string
-      isLocal?: false | undefined
-      icon: IconDefinition
-    }
-  | {
-      name: string
-      href: string
-      isLocal: true
-      icon: string
-    }
+	| {
+			name: string;
+			href: string;
+			isLocal?: false | undefined;
+			icon: IconDefinition;
+	  }
+	| {
+			name: string;
+			href: string;
+			isLocal: true;
+			icon: string;
+	  };
 
 const links: Link[] = [
-  {
-    name: 'git.gay',
-    href: 'https://git.gay/iris',
-    icon: faGitAlt,
-  },
-  {
-    name: 'bluesky',
-    href: 'https://bsky.app/profile/heyiris.dev',
-    icon: faBluesky,
-  },
-  {
-    name: 'listenbrainz',
-    href: 'https://listenbrainz.org/user/ttaylor-st/',
-    icon: faMusic,
-  },
-]
+	{
+		name: "git.gay",
+		href: "https://git.gay/iris",
+		icon: faGitAlt,
+	},
+	{
+		name: "bluesky",
+		href: "https://bsky.app/profile/legallyiris.dev",
+		icon: faBluesky,
+	},
+	{
+		name: "listenbrainz",
+		href: "https://listenbrainz.org/user/ttaylor-st/",
+		icon: faMusic,
+	},
+];
 </script>
 
 <template>
