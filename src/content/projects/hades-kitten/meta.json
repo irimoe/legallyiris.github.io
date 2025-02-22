@@ -1,0 +1,10 @@
+{
+	"title": "Hades' Kitten",
+	"description": "Hades' Kitten is a Discord bot for nationstates.net",
+	"status": "active",
+	"tech": ["typescript", "discord.js", "sqlite"],
+	"links": {
+		"source": "https://github.com/Hades-Kitten/Hades-Kitten",
+		"website": null
+	}
+}
