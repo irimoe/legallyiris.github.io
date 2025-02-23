@@ -16,6 +16,8 @@
     </p>
 
     <h2>say meow</h2>
-    <p>send cat sounds to my email at <a href="mailto:iris@heyiris.dev">iris@heyiris.dev</a></p>
+    <p>send cat sounds to my email at <a href="mailto:iris@legallyiris.dev">iris@legallyiris.dev</a>
+      or on discord, @legallyiris</p>
+
   </main>
 </template>

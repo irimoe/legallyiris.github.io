@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const updatedMs = 1736540206 * 1000
-const updated = new Date(updatedMs).toLocaleDateString('en-GB', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-})
+const updatedMs = 1740280046 * 1000;
+const updated = new Date(updatedMs).toLocaleDateString("en-GB", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
 </script>
 
 <template>
@@ -32,11 +32,9 @@ const updated = new Date(updatedMs).toLocaleDateString('en-GB', {
     <section id="software">
       <h3>software</h3>
       <ul>
-        <li>my pc runs arch linux with the niri wayland compositor.</li>
-        <li>i use the foot terminal emulator with bash and the tmux terminal multiplexer.</li>
-        <li>
-          i use the zed text editor the vast majority of the time, but also use jetbrains ide's.
-        </li>
+        <li>my pc runs nixos with the sway wayland compositor.</li>
+        <li>i use the foot terminal emulator with fish.</li>
+        <li>i exclusively use the zed text editor.</li>
         <li>i use firefox as my web browser.</li>
       </ul>
 
