@@ -38,8 +38,8 @@ jobs:
 
       - name: deploy
         run: |
-          git config --global user.email "${{ secrets.EMAIL }}"
-          git config --global user.name "${{ secrets.USERNAME }}"
+          git config user.email "${{ secrets.EMAIL }}"
+          git config user.name "${{ secrets.USERNAME }}"
           git remote add main "https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@git.gay/iris/www.git"
 
           git fetch main
