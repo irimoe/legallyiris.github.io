@@ -55,4 +55,4 @@ jobs:
 
           git add .
           git commit -m "deploy docs"
-          git push codeberg pages --force
+          git push main pages --force
