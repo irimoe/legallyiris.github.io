@@ -26,7 +26,7 @@ jobs:
         run: bun install
 
       - name: build
-        run: bun run build
+        run: bun run build-only
 
       - name: save node modules cache
         uses: actions/cache/save@v4
