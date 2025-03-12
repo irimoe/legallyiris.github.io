@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: alpine
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v2
@@ -36,7 +36,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: alpine
+    runs-on: ubuntu-latest
 
     permissions:
       pages: write
