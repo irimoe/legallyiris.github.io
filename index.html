@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iris</title>
     <script>
-      const redirect = sessionStorage.getItem('redirect');
-      if (redirect) {
-        sessionStorage.removeItem('redirect');
-        history.replaceState(null, null, redirect);
-      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect');
+      
+      if (!redirect) return
+      const url = redirect;
+      window.history.replaceState({}, document.title, url);
     </script>
   </head>
   <body class="theme-mocha">

@@ -6,10 +6,10 @@
   <script>
     const path = window.location.pathname;
     sessionStorage.setItem('redirect', path);
-    window.location.href = '/';
+    window.location.replace('/?redirect=' + encodeURIComponent(path));
   </script>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <p>redirecting...</p>
 </body>
 </html>
