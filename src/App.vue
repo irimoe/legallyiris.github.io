@@ -41,7 +41,7 @@ const links: Link[] = [
 	},
 	{
 		name: "listenbrainz",
-		href: "https://listenbrainz.org/user/ttaylor-st/",
+		href: "https://listenbrainz.org/user/legallyiris/",
 		icon: faMusic,
 	},
 ];

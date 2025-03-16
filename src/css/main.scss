@@ -8,7 +8,7 @@
   margin: 0 auto;
   padding: 1rem;
   font-weight: normal;
-  overflow: hidden;
+  overflow-y: visible;
 }
 
 main.page {
@@ -54,6 +54,12 @@ a {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     transition: $transition;
+
+    &.profile {
+      position: sticky;
+      top: 4rem;
+      align-self: flex-start;
+    }
 
     .pane-titlebar {
       font-size: 0.875rem;

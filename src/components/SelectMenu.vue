@@ -52,172 +52,178 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import type { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 
 interface Option {
-  value: string
-  label: string
+	value: string;
+	label: string;
 }
 
 const props = defineProps<{
-  options: Option[]
-  modelValue: string
-  activeOnHover?: boolean
-  icon?: IconDefinition | string
-}>()
+	options: Option[];
+	modelValue: string;
+	activeOnHover?: boolean;
+	icon?: IconDefinition | string;
+}>();
 
 const emit = defineEmits<{
-  'update:modelValue': [string]
-}>()
+	"update:modelValue": [string];
+}>();
 
-const selectContainer = ref<HTMLElement | null>(null)
-const dropdownMenu = ref<HTMLElement | null>(null)
-const dropdownPosition = ref({})
+const selectContainer = ref<HTMLElement | null>(null);
+const dropdownMenu = ref<HTMLElement | null>(null);
+const dropdownPosition = ref({});
 
-const isOpen = ref(false)
-const buttonWidth = ref('100px')
-const hoverOptionValue = ref<Option>({ value: '', label: '' })
+const isOpen = ref(false);
+const buttonWidth = ref("100px");
+const hoverOptionValue = ref<Option>({ value: "", label: "" });
 
 const selectedOption = computed<Option>({
-  get: () => props.options.find((option) => option.value === props.modelValue) || props.options[0],
-  set: (newOption: Option) => emit('update:modelValue', newOption.value),
-})
+	get: () =>
+		props.options.find((option) => option.value === props.modelValue) ||
+		props.options[0],
+	set: (newOption: Option) => emit("update:modelValue", newOption.value),
+});
 
 const selectOption = (option: Option) => {
-  selectedOption.value = option
-  isOpen.value = false
-  hoverOptionValue.value = { value: '', label: '' }
-}
+	selectedOption.value = option;
+	isOpen.value = false;
+	hoverOptionValue.value = { value: "", label: "" };
+};
 
 const toggleOpen = () => {
-  const opened = !isOpen.value
-  if (opened) {
-    isOpen.value = opened
-    const firstItem = document.querySelector('#options-list li')
-    if (firstItem) (firstItem as HTMLElement).focus()
-  } else {
-    isOpen.value = opened
-  }
-}
+	const opened = !isOpen.value;
+	if (opened) {
+		isOpen.value = opened;
+		const firstItem = document.querySelector("#options-list li");
+		if (firstItem) (firstItem as HTMLElement).focus();
+	} else {
+		isOpen.value = opened;
+	}
+};
 
 const hoverOption = (option: Option) => {
-  if (!props.activeOnHover) return
-  hoverOptionValue.value = option
-  selectedOption.value = option
-}
+	if (!props.activeOnHover) return;
+	hoverOptionValue.value = option;
+	selectedOption.value = option;
+};
 
 const updateDropdownPosition = () => {
-  if (!isOpen.value || !selectContainer.value || !dropdownMenu.value) return
+	if (!selectContainer.value || !dropdownMenu.value) return;
 
-  const containerRect = selectContainer.value.getBoundingClientRect()
-  const dropdownRect = dropdownMenu.value.getBoundingClientRect()
-  const viewportHeight = window.innerHeight
-  const viewportWidth = window.innerWidth
+	const containerRect = selectContainer.value.getBoundingClientRect();
+	const dropdownRect = dropdownMenu.value.getBoundingClientRect();
+	const viewportHeight = window.innerHeight;
+	const viewportWidth = window.innerWidth;
 
-  const spaceBelow = viewportHeight - containerRect.bottom
-  const spaceAbove = containerRect.top
-  const spaceRight = viewportWidth - containerRect.left
+	const spaceBelow = viewportHeight - containerRect.bottom;
+	const spaceAbove = containerRect.top;
+	const spaceRight = viewportWidth - containerRect.left;
 
-  const newPosition: Record<string, string> = {}
+	const newPosition: Record<string, string> = {};
 
-  if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) {
-    newPosition.top = 'auto'
-    newPosition.bottom = 'calc(100% + 0.5rem)'
-  } else {
-    newPosition.top = 'calc(100% + 0.5rem)'
-    newPosition.bottom = 'auto'
-  }
+	if (spaceBelow < dropdownRect.height && spaceAbove > dropdownRect.height) {
+		newPosition.top = "auto";
+		newPosition.bottom = "calc(100% + 0.5rem)";
+	} else {
+		newPosition.top = "calc(100% + 0.5rem)";
+		newPosition.bottom = "auto";
+	}
 
-  if (containerRect.left + dropdownRect.width > viewportWidth) {
-    newPosition.left = 'auto'
-    newPosition.right = '0'
-  } else {
-    newPosition.left = '0'
-    newPosition.right = 'auto'
-  }
+	if (containerRect.left + dropdownRect.width > viewportWidth) {
+		newPosition.left = "auto";
+		newPosition.right = "0";
+	} else {
+		newPosition.left = "0";
+		newPosition.right = "auto";
+	}
 
-  dropdownPosition.value = newPosition
-}
+	dropdownPosition.value = newPosition;
+};
 
 const clickOutside = (event: MouseEvent) => {
-  if (!isOpen.value) return
-  if (!selectContainer.value?.contains(event.target as Node)) {
-    isOpen.value = false
-  }
-}
+	if (!isOpen.value) return;
+	if (!selectContainer.value?.contains(event.target as Node)) {
+		isOpen.value = false;
+	}
+};
 
 onMounted(async () => {
-  await nextTick()
-  window.addEventListener('scroll', updateDropdownPosition, true)
-  window.addEventListener('resize', updateDropdownPosition)
-  window.addEventListener('click', clickOutside)
+	await nextTick();
+	updateDropdownPosition();
 
-  const optionWidths = props.options.map((option) => {
-    const testElement = document.createElement('span')
-    testElement.textContent = option.label
-    document.body.appendChild(testElement)
-    const width = testElement.offsetWidth + 20
-    document.body.removeChild(testElement)
-    return width
-  })
+	window.addEventListener("scroll", updateDropdownPosition, true);
+	window.addEventListener("resize", updateDropdownPosition);
+	window.addEventListener("click", clickOutside);
 
-  buttonWidth.value = `${Math.max(...optionWidths)}px`
-})
+	const optionWidths = props.options.map((option) => {
+		const testElement = document.createElement("span");
+		testElement.textContent = option.label;
+		document.body.appendChild(testElement);
+		const width = testElement.offsetWidth + 20;
+		document.body.removeChild(testElement);
+		return width;
+	});
+
+	buttonWidth.value = `${Math.max(...optionWidths)}px`;
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', updateDropdownPosition, true)
-  window.removeEventListener('resize', updateDropdownPosition)
-  window.removeEventListener('click', clickOutside)
-})
+	window.removeEventListener("scroll", updateDropdownPosition, true);
+	window.removeEventListener("resize", updateDropdownPosition);
+	window.removeEventListener("click", clickOutside);
+});
 
 const handleKeyDown = (event: KeyboardEvent) => {
-  if (isOpen.value) {
-    const listItems = document.querySelectorAll('.options-list li')
-    let currentIndex = Array.from(listItems).indexOf(event.target as HTMLElement)
-    if (currentIndex === -1) return
+	if (isOpen.value) {
+		const listItems = document.querySelectorAll(".options-list li");
+		let currentIndex = Array.from(listItems).indexOf(
+			event.target as HTMLElement,
+		);
+		if (currentIndex === -1) return;
 
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault()
-    }
+		if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+			event.preventDefault();
+		}
 
-    if (event.key === 'ArrowDown') {
-      currentIndex = (currentIndex + 1) % listItems.length
-    } else if (event.key === 'ArrowUp') {
-      currentIndex = (currentIndex - 1 + listItems.length) % listItems.length
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      ;(listItems[currentIndex] as HTMLElement).click()
-      return
-    }
-    ;(listItems[currentIndex] as HTMLElement).focus()
-    if (props.activeOnHover) {
-      hoverOption(props.options[currentIndex])
-    }
-  } else if (event.key === 'Enter' || event.key === ' ') {
-    toggleOpen()
-    nextTick(() => {
-      const firstItem = document.querySelector('#options-list li:first-child')
-      if (!firstItem) return
-      ;(firstItem as HTMLElement).focus()
-    })
-  }
-}
+		if (event.key === "ArrowDown") {
+			currentIndex = (currentIndex + 1) % listItems.length;
+		} else if (event.key === "ArrowUp") {
+			currentIndex = (currentIndex - 1 + listItems.length) % listItems.length;
+		} else if (event.key === "Enter" || event.key === " ") {
+			(listItems[currentIndex] as HTMLElement).click();
+			return;
+		}
+		(listItems[currentIndex] as HTMLElement).focus();
+		if (props.activeOnHover) {
+			hoverOption(props.options[currentIndex]);
+		}
+	} else if (event.key === "Enter" || event.key === " ") {
+		toggleOpen();
+		nextTick(() => {
+			const firstItem = document.querySelector("#options-list li:first-child");
+			if (!firstItem) return;
+			(firstItem as HTMLElement).focus();
+		});
+	}
+};
 
 const handleBlur = (event: FocusEvent) => {
-  if (!isOpen.value) return
-  const relatedTarget = event.relatedTarget as HTMLElement | null
-  if (!relatedTarget || !relatedTarget.closest('.options-list')) {
-    isOpen.value = false
-  }
-}
+	if (!isOpen.value) return;
+	const relatedTarget = event.relatedTarget as HTMLElement | null;
+	if (!relatedTarget || !relatedTarget.closest(".options-list")) {
+		isOpen.value = false;
+	}
+};
 
 watch(isOpen, async (newValue) => {
-  if (newValue) {
-    await nextTick()
-    updateDropdownPosition()
-  }
-})
+	if (newValue) {
+		await nextTick();
+		updateDropdownPosition();
+	}
+});
 </script>
 
 <style scoped>
