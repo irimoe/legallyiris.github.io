@@ -3,11 +3,12 @@ import {
 	type IconDefinition,
 	faBluesky,
 	faGitAlt,
+	faGithub,
+	faLastfm,
 } from "@fortawesome/free-brands-svg-icons";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { RouterLink, RouterView } from "vue-router";
-import codebergSvg from "./assets/codeberg.svg?raw";
+import { RouterLink } from "vue-router";
 
 import ContentView from "@/components/ContentView.vue";
 import ThemeSelector from "@/components/ThemeSelector.vue";
@@ -30,6 +31,11 @@ type Link =
 
 const links: Link[] = [
 	{
+		name: "github",
+		href: "https://github.com/legallyiris",
+		icon: faGithub,
+	},
+	{
 		name: "git.gay",
 		href: "https://git.gay/iris",
 		icon: faGitAlt,
@@ -42,7 +48,7 @@ const links: Link[] = [
 	{
 		name: "listenbrainz",
 		href: "https://listenbrainz.org/user/legallyiris/",
-		icon: faMusic,
+		icon: faLastfm,
 	},
 ];
 </script>
@@ -65,8 +71,8 @@ const links: Link[] = [
   </nav>
 
   <main class="pane">
-    <div class="pane-item profile">
-      <div class="pane-main">
+    <div class="pane-item vertical profile">
+      <div class="pane-panel pane-main">
         <img src="/me.webp" alt="profile picture" />
         <h2>hi, i'm <span class="name">iris.</span></h2>
         <div class="pronouns">it/its/itself</div>
@@ -94,6 +100,9 @@ const links: Link[] = [
             </template>
           </Tooltip>
         </div>
+      </div>
+      <div class="pane-panel pane-main">
+        made with meows
       </div>
     </div>
     <ContentView />
@@ -167,6 +176,7 @@ nav {
 
 main {
   margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
 .links {

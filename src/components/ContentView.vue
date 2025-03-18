@@ -1,70 +1,71 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
-import Breadcrumb from '@/components/BreadCrumbs.vue'
-import router from './../router'
+import Breadcrumb from "@/components/BreadCrumbs.vue";
+import { ref, watch } from "vue";
+import { RouterView, useRouter } from "vue-router";
+import router from "./../router";
 
-const currentTransition = ref('slide-right')
+const currentTransition = ref("slide-right");
 
 const getRouteIndex = (path: string) => {
-  const routes = router.getRoutes()
-  const flatRoutes = routes.flatMap((route) => {
-    if (route.children) {
-      return [route, ...route.children]
-    }
-    return route
-  })
-  return flatRoutes.findIndex((r) => r.path === path)
-}
+	const routes = router.getRoutes();
+	const flatRoutes = routes.flatMap((route) => {
+		if (route.children) {
+			return [route, ...route.children];
+		}
+		return route;
+	});
+	return flatRoutes.findIndex((r) => r.path === path);
+};
 
 const isChildRoute = (from: string, to: string) => {
-  return to.startsWith(from) && to !== from
-}
+	return to.startsWith(from) && to !== from;
+};
 
 const isParentRoute = (from: string, to: string) => {
-  return from.startsWith(to) && from !== to
-}
+	return from.startsWith(to) && from !== to;
+};
 
 watch(
-  () => router.currentRoute.value,
-  (to, from) => {
-    if (!from) return
+	() => router.currentRoute.value,
+	(to, from) => {
+		if (!from) return;
 
-    // @ts-expect-error ts is lying.
-    if (window.navigation) {
-      // @ts-expect-error ts is lying.
-      const navType = window.navigation.currentEntry?.navigationType
-      if (navType === 'back') {
-        currentTransition.value = 'slide-right'
-        return
-      }
-      if (navType === 'forward') {
-        currentTransition.value = 'slide-left'
-        return
-      }
-    }
+		// @ts-expect-error ts is lying.
+		if (window.navigation) {
+			// @ts-expect-error ts is lying.
+			const navType = window.navigation.currentEntry?.navigationType;
+			if (navType === "back") {
+				currentTransition.value = "slide-right";
+				return;
+			}
+			if (navType === "forward") {
+				currentTransition.value = "slide-left";
+				return;
+			}
+		}
 
-    if (isChildRoute(from.path, to.path)) {
-      currentTransition.value = 'slide-left'
-      return
-    }
-    if (isParentRoute(from.path, to.path)) {
-      currentTransition.value = 'slide-right'
-      return
-    }
+		if (isChildRoute(from.path, to.path)) {
+			currentTransition.value = "slide-left";
+			return;
+		}
+		if (isParentRoute(from.path, to.path)) {
+			currentTransition.value = "slide-right";
+			return;
+		}
 
-    const fromIndex = getRouteIndex(from.path)
-    const toIndex = getRouteIndex(to.path)
-    currentTransition.value = fromIndex < toIndex ? 'slide-left' : 'slide-right'
-  },
-  { immediate: true },
-)
+		const fromIndex = getRouteIndex(from.path);
+		const toIndex = getRouteIndex(to.path);
+		currentTransition.value =
+			fromIndex < toIndex ? "slide-left" : "slide-right";
+	},
+	{ immediate: true },
+);
 </script>
 
 <template>
   <RouterView v-slot="{ Component }">
     <transition :name="currentTransition" mode="out-in">
-      <div :key="$route.path" class="pane-item content">
+      <div :key="$route.path" class="pane-panel content">
         <div class="pane-titlebar">
           <Breadcrumb :route="$route" />
         </div>

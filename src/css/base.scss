@@ -12,7 +12,7 @@
 body {
   min-height: 100vh;
   color: hsl(var(--text));
-  background-color: hsl(var(--base));
+  background-color: hsl(var(--crust));
   transition:
     color $transition,
     background-color $transition;

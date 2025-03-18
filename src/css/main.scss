@@ -48,18 +48,43 @@ a {
   align-items: start;
 
   .pane-item {
-    backdrop-filter: blur(1rem);
-    background: hsla(var(--crust) / 0.75);
+    &.profile {
+        position: sticky;
+        top: 4rem;
+        align-self: flex-start;
+    }
+
+    &.vertical {
+        display: flex;
+        flex-direction: column;
+        background: none;
+        border: none;
+        overflow-x: hidden;
+        gap: 0.2rem;
+        .pane-panel {
+            &:first-child {
+                border-bottom-left-radius: 0.25rem;
+                border-bottom-right-radius: 0.25rem
+            }
+
+            &:last-child {
+                border-top-left-radius: 0.25rem;
+                border-top-right-radius: 0.25rem;
+            }
+
+            &:not(:first-child):not(:last-child) {
+                border-radius: 0.25rem;
+            }
+        }
+    }
+  }
+
+  .pane-panel {
+    background: hsla(var(--mantle) / 0.25);
     border: 1px solid hsla(var(--subtext1) / 0.2);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     transition: $transition;
-
-    &.profile {
-      position: sticky;
-      top: 4rem;
-      align-self: flex-start;
-    }
 
     .pane-titlebar {
       font-size: 0.875rem;
@@ -69,11 +94,12 @@ a {
       overflow: hidden;
       border-radius: 0.5rem 0.5rem 0 0;
     }
-
-    .pane-main {
-      padding: 0.5rem;
-    }
   }
+
+  .pane-main {
+    padding: 0.5rem;
+  }
+
 }
 
 @media (max-width: 600px) {
