@@ -87,6 +87,7 @@ const links: Link[] = [
             <template #default="{ show, hide }">
               <a
                 :href="link.href"
+                :aria-label="link.name"
                 target="_blank"
                 rel="noopener noreferrer"
                 @mouseenter="show"
