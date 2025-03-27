@@ -37,8 +37,11 @@ hr {
 }
 
 a {
-  color: hsla(var(--blue) / 1);
-  text-decoration: none;
+  color: hsla(var(--sapphire) / 1);
+  text-decoration: underline dashed hsla(var(--blue) / 1);
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .pane {
