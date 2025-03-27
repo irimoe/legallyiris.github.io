@@ -1,5 +1,13 @@
 <template>
-  <div class="custom-select" ref="selectContainer" role="combobox" :aria-expanded="isOpen">
+  <div
+    class="custom-select"
+    ref="selectContainer"
+    role="combobox"
+    :aria-expanded="isOpen"
+    :aria-labelledby="labelId"
+    :aria-activedescendant="activeDescendantId"
+  >
+    <span :id="labelId" class="sr-only">{{ ariaLabel || 'Select option' }}</span>
     <button
       :style="{ width: icon ? 'auto' : buttonWidth }"
       :class="{ 'select-button': true, open: isOpen }"
@@ -7,6 +15,7 @@
       aria-haspopup="listbox"
       aria-controls="options-list"
       @blur="handleBlur"
+      :aria-label="ariaLabel || 'Select option'"
     >
       <span v-if="icon" class="icon">
         <FontAwesomeIcon :icon="icon" />
@@ -21,6 +30,9 @@
       ref="dropdownMenu"
       role="listbox"
       class="options-list"
+      :aria-label="ariaLabel || 'Select option'"
+      :aria-expanded="isOpen"
+      :aria-hidden="!isOpen"
       @keydown.stop="handleKeyDown"
       :class="{ open: isOpen }"
       :style="{
@@ -31,6 +43,7 @@
       <li
         v-for="option in options"
         :key="option.value"
+        :id="`option-${option.value}`"
         @click="selectOption(option)"
         @mouseover="hoverOption(option)"
         :class="{
@@ -47,7 +60,7 @@
   </div>
 
   <teleport to="body">
-    <div @click="toggleOpen" :class="{ backdrop: true, open: false }" />
+    <div @click="toggleOpen" :class="{ backdrop: true, open: isOpen }" />
   </teleport>
 </template>
 
@@ -66,6 +79,7 @@ const props = defineProps<{
 	modelValue: string;
 	activeOnHover?: boolean;
 	icon?: IconDefinition | string;
+	ariaLabel?: string;
 }>();
 
 const emit = defineEmits<{
@@ -79,6 +93,12 @@ const dropdownPosition = ref({});
 const isOpen = ref(false);
 const buttonWidth = ref("100px");
 const hoverOptionValue = ref<Option>({ value: "", label: "" });
+const labelId = ref(
+	`select-label-${Math.random().toString(36).substring(2, 9)}`,
+);
+const activeDescendantId = computed(() =>
+	selectedOption.value ? `option-${selectedOption.value.value}` : "",
+);
 
 const selectedOption = computed<Option>({
 	get: () =>
@@ -195,6 +215,14 @@ const handleKeyDown = (event: KeyboardEvent) => {
 		} else if (event.key === "Enter" || event.key === " ") {
 			(listItems[currentIndex] as HTMLElement).click();
 			return;
+		} else if (event.key === "Tab") {
+			if (event.shiftKey && currentIndex > 0) {
+				event.preventDefault();
+				currentIndex -= 1;
+			} else if (!event.shiftKey && currentIndex < listItems.length - 1) {
+				event.preventDefault();
+				currentIndex += 1;
+			}
 		}
 		(listItems[currentIndex] as HTMLElement).focus();
 		if (props.activeOnHover) {
@@ -320,5 +348,17 @@ button.select-button {
     opacity: 1;
     pointer-events: auto;
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 </style>

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { faPalette } from '@fortawesome/free-solid-svg-icons'
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { onMounted } from "vue";
 
-import SelectMenu from '@/components/SelectMenu.vue'
-import { useThemeStore } from '@/stores/theme'
+import SelectMenu from "@/components/SelectMenu.vue";
+import { useThemeStore } from "@/stores/theme";
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 const themeOptions = [
-  { value: 'latte', label: 'latte' },
-  { value: 'frappe', label: 'frappe' },
-  { value: 'macchiato', label: 'macchiato' },
-  { value: 'mocha', label: 'mocha' },
-]
+	{ value: "latte", label: "latte" },
+	{ value: "frappe", label: "frappe" },
+	{ value: "macchiato", label: "macchiato" },
+	{ value: "mocha", label: "mocha" },
+];
 
 onMounted(() => {
-  themeStore.initializeTheme()
-})
+	themeStore.initializeTheme();
+});
 </script>
 
 <template>
@@ -24,5 +24,6 @@ onMounted(() => {
     v-model="themeStore.theme"
     :activeOnHover="true"
     :icon="faPalette"
+    ariaLabel="Theme Selector"
   />
 </template>
