@@ -13,7 +13,7 @@ const statusColor = computed(() => {
 		case "maintained":
 			return "var(--blue)";
 		case "archived":
-			return "var(--overlay0)";
+			return "var(--subtext0)";
 	}
 
 	return "var(--subtext0)";
