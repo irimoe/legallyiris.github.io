@@ -1,36 +1,37 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue'
-import { useProjectsStore } from '@/stores/projects'
-import ProjectCard from '@/components/ProjectCard.vue'
-import SelectMenu from '@/components/SelectMenu.vue'
+import ProjectCard from "@/components/ProjectCard.vue";
+import SelectMenu from "@/components/SelectMenu.vue";
+import { useProjectsStore } from "@/stores/projects";
+import { computed, onMounted, ref } from "vue";
 
-const projectsStore = useProjectsStore()
-const projects = computed(() => projectsStore.projects)
-const selectedFilter = ref('all')
+const projectsStore = useProjectsStore();
+const selectedFilter = ref("all");
 
 const filterOptions = [
-  { value: 'all', label: 'all projects' },
-  { value: 'active', label: 'active' },
-  { value: 'maintained', label: 'maintained' },
-  { value: 'archived', label: 'archived' },
-]
+	{ value: "all", label: "all projects" },
+	{ value: "active", label: "active" },
+	{ value: "maintained", label: "maintained" },
+	{ value: "archived", label: "archived" },
+];
 
 const filteredProjects = computed(() => {
-  const allProjects = projectsStore.projects
-  if (selectedFilter.value === 'all') return allProjects
-  return allProjects.filter((project) => project.status === selectedFilter.value)
-})
+	const allProjects = projectsStore.projects;
+	if (selectedFilter.value === "all") return allProjects;
+	return allProjects.filter(
+		(project) => project.status === selectedFilter.value,
+	);
+});
 
 onMounted(() => {
-  projectsStore.loadProjects()
-})
+	projectsStore.loadProjects();
+});
 </script>
 
 <template>
   <main class="page">
     <div class="header">
       <div class="title">
-        <h2>projects</h2>
+        <h1>projects</h1>
         <p>things i've built or am building.</p>
       </div>
       <SelectMenu v-model="selectedFilter" :options="filterOptions" />

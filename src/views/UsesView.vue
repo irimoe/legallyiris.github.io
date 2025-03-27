@@ -9,12 +9,12 @@ const updated = new Date(updatedMs).toLocaleDateString("en-GB", {
 
 <template>
   <main class="page">
-    <h2>things that i use</h2>
+    <h1>things that i use</h1>
     <div class="last-updated">last updated: {{ updated }}</div>
     <hr />
 
     <section id="hardware">
-      <h3>hardware</h3>
+      <h2>hardware</h2>
       <ul>
         <li>my phone is a google pixel 7a running on calyxos</li>
         <li>
@@ -30,7 +30,7 @@ const updated = new Date(updatedMs).toLocaleDateString("en-GB", {
     </section>
 
     <section id="software">
-      <h3>software</h3>
+      <h2>software</h2>
       <ul>
         <li>my pc runs nixos with the sway wayland compositor.</li>
         <li>i use the foot terminal emulator with fish.</li>

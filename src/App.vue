@@ -70,7 +70,7 @@ const links: Link[] = [
     </div>
   </nav>
 
-  <main class="pane">
+  <div class="pane main-pane">
     <div class="pane-item vertical profile">
       <div class="pane-panel pane-main">
         <img src="/me.webp" alt="profile picture" />
@@ -107,7 +107,7 @@ const links: Link[] = [
       </div>
     </div>
     <ContentView />
-  </main>
+  </div>
 
   <div class="trans-flag">
     <div class="blue"></div>
@@ -175,7 +175,7 @@ nav {
   }
 }
 
-main {
+.main-pane {
   margin-top: 3rem;
   margin-bottom: 1rem;
 }

@@ -2,7 +2,7 @@
 
 <template>
   <main class="page">
-    <h2>who dis?</h2>
+    <h1>who dis?</h1>
     <p>
       i'm iris. i'm a web and rust developer. i like making web applications that are visually
       appealing and feel good to use, and enjoy banging my head against the wall when writing rust

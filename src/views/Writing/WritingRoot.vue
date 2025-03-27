@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { usePostsStore } from '@/stores/posts'
-import { RouterLink } from 'vue-router'
+import { usePostsStore } from "@/stores/posts";
+import { computed, onMounted, ref } from "vue";
+import { RouterLink } from "vue-router";
 
-const postsStore = usePostsStore()
-const posts = computed(() => postsStore.posts)
-postsStore.loadPosts()
+const postsStore = usePostsStore();
+const posts = computed(() => postsStore.posts);
+postsStore.loadPosts();
 </script>
 
 <template>
   <main class="page">
-    <h2>writing</h2>
+    <h1>writing</h1>
     <p>i write about things that interest me sometimes</p>
     <hr />
 
