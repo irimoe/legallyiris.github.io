@@ -51,10 +51,26 @@ const links: Link[] = [
 		icon: faLastfm,
 	},
 ];
+
+function scrollToMainContent() {
+	const main = document.querySelector(".pane-panel.content") as HTMLElement;
+	if (main) {
+		main.setAttribute("tabindex", "-1");
+		main.focus();
+		main.scrollIntoView({ behavior: "smooth" });
+	}
+}
 </script>
 
 <template>
-  <nav>
+
+  <nav aria-label="Skip to main content" class="skip-to-main">
+    <button class="nav-item" @click="scrollToMainContent">
+      Skip to main content
+    </button>
+  </nav>
+
+  <nav class="main-nav">
     <div class="left">
       <RouterLink
         v-for="route in router.getRoutes().filter((route) => route.meta.nav)"
@@ -121,7 +137,9 @@ const links: Link[] = [
 <style scoped lang="scss">
 @use 'css/_variables.scss' as *;
 
-nav {
+
+
+nav.main-nav {
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -171,6 +189,37 @@ nav {
         background: hsla(var(--surface1) / 1);
         border: 2px solid hsla(var(--flamingo) / 1);
       }
+    }
+  }
+}
+
+.skip-to-main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  text-align: center;
+
+  button {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    background: hsla(var(--surface0) / 0.9);
+    color: hsl(var(--text));
+    border: 2px solid hsla(var(--blue) / 0.8);
+    border-radius: 0 0 0.5rem 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:focus {
+      top: 0;
+      outline: none;
+      box-shadow: 0 0 0 2px hsla(var(--blue) / 0.5);
     }
   }
 }
