@@ -78,7 +78,7 @@ watch(
 <template>
   <RouterView v-slot="{ Component }">
     <transition :name="currentTransition" mode="out-in">
-      <div :key="$route.path" class="pane-panel content">
+      <div :key="$route.path" class="pane-panel content" id="main-view">
         <nav class="pane-titlebar" aria-label="Breadcrumbs">
           <Breadcrumb :route="$route" />
         </nav>
