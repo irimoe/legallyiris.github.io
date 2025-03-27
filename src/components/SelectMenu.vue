@@ -7,7 +7,6 @@
     :aria-labelledby="labelId"
     :aria-activedescendant="activeDescendantId"
   >
-    <span :id="labelId" class="sr-only">{{ ariaLabel || 'Select option' }}</span>
     <button
       :style="{ width: icon ? 'auto' : buttonWidth }"
       :class="{ 'select-button': true, open: isOpen }"
@@ -348,17 +347,5 @@ button.select-button {
     opacity: 1;
     pointer-events: auto;
   }
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
 </style>
