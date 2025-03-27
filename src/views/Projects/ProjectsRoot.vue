@@ -28,23 +28,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="page">
-    <div class="header">
-      <div class="title">
-        <h1>projects</h1>
-        <p>things i've built or am building.</p>
-      </div>
-      <SelectMenu v-model="selectedFilter" :options="filterOptions" />
+  <div class="header">
+    <div class="title">
+      <h1>projects</h1>
+      <p>things i've built or am building.</p>
     </div>
-    <hr />
+    <SelectMenu v-model="selectedFilter" :options="filterOptions" />
+  </div>
+  <hr />
 
-    <TransitionGroup name="projects-grid" tag="div" class="projects" v-if="filteredProjects.length">
-      <ProjectCard v-for="project in filteredProjects" :key="project.slug" :project="project" />
-    </TransitionGroup>
-    <div v-else>
-      <p>no projects found.</p>
-    </div>
-  </main>
+  <TransitionGroup name="projects-grid" tag="div" class="projects" v-if="filteredProjects.length">
+    <ProjectCard v-for="project in filteredProjects" :key="project.slug" :project="project" />
+  </TransitionGroup>
+  <div v-else>
+    <p>no projects found.</p>
+  </div>
 </template>
 
 <style scoped lang="scss">

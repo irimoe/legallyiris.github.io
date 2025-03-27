@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Breadcrumb from "@/components/BreadCrumbs.vue";
-import { ref, watch } from "vue";
-import { RouterView, useRouter } from "vue-router";
+import { nextTick, ref, watch } from "vue";
+import { RouterView } from "vue-router";
 import router from "./../router";
 
 const currentTransition = ref("slide-right");
@@ -60,6 +60,19 @@ watch(
 	},
 	{ immediate: true },
 );
+
+watch(
+	() => router.currentRoute.value,
+	async () => {
+		await nextTick();
+		await new Promise((resolve) => setTimeout(resolve, 300));
+		const main = document.querySelector(".pane-panel.content") as HTMLElement;
+		if (main) {
+			main.setAttribute("tabindex", "-1");
+			main.focus();
+		}
+	},
+);
 </script>
 
 <template>
@@ -69,9 +82,12 @@ watch(
         <nav class="pane-titlebar" aria-label="Breadcrumbs">
           <Breadcrumb :route="$route" />
         </nav>
-        <div class="pane-main">
+        <main
+          class="pane-main"
+          :aria-label="`${String($route.name)} page content`"
+        >
           <component :is="Component" />
-        </div>
+        </main>
       </div>
     </transition>
   </RouterView>
@@ -103,5 +119,19 @@ watch(
 .slide-right-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+
+
+.pane-panel.content:focus {
+  outline: 1px solid red;
+}
+
+.pane-panel.content:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.pane-panel.content:focus-visible {
+  outline: 2px solid hsla(var(--blue) / 0.5);
+  border-radius: 0.5rem;
 }
 </style>

@@ -1,46 +1,44 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { usePostsStore } from '@/stores/posts'
-import { renderMarkdown } from '@/utils/markdown'
-import ShareButton from '@/components/ShareButton.vue'
+import ShareButton from "@/components/ShareButton.vue";
+import { usePostsStore } from "@/stores/posts";
+import { renderMarkdown } from "@/utils/markdown";
+import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
-const route = useRoute()
-const postsStore = usePostsStore()
-const renderedContent = ref('')
-const post = ref(null)
+const route = useRoute();
+const postsStore = usePostsStore();
+const renderedContent = ref("");
+const post = ref(null);
 
 const shareUrl = computed(() => {
-  return `${window.location.origin}${route.fullPath}`
-})
+	return `${window.location.origin}${route.fullPath}`;
+});
 
 onMounted(async () => {
-  await postsStore.loadPosts()
-  post.value = postsStore.getPostBySlug(route.params.slug as string)
-  if (post.value) renderedContent.value = renderMarkdown(post.value.content)
-})
+	await postsStore.loadPosts();
+	post.value = postsStore.getPostBySlug(route.params.slug as string);
+	if (post.value) renderedContent.value = renderMarkdown(post.value.content);
+});
 </script>
 
 <template>
-  <main class="page">
-    <article v-if="post" class="post">
-      <header>
-        <div class="post-header">
-          <h1>{{ post.title }}</h1>
-          <ShareButton :title="post.title" :url="shareUrl" />
-        </div>
-        <div class="post-meta">
-          <time>{{ new Date(post.date!).toLocaleDateString() }}</time>
-          <span>~{{ post.readingTime }}</span>
-        </div>
-      </header>
-      <hr />
-      <div class="post-content" v-html="renderedContent"></div>
-    </article>
-    <div v-else>
-      <h2>Post not found</h2>
-    </div>
-  </main>
+  <article v-if="post" class="post">
+    <header>
+      <div class="post-header">
+        <h1>{{ post.title }}</h1>
+        <ShareButton :title="post.title" :url="shareUrl" />
+      </div>
+      <div class="post-meta">
+        <time>{{ new Date(post.date!).toLocaleDateString() }}</time>
+        <span>~{{ post.readingTime }}</span>
+      </div>
+    </header>
+    <hr />
+    <div class="post-content" v-html="renderedContent"></div>
+  </article>
+  <div v-else>
+    <h2>Post not found</h2>
+  </div>
 </template>
 
 <style scoped lang="scss">

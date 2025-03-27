@@ -1,36 +1,37 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faCode, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faCode, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
-import { useProjectsStore } from '../../stores/projects'
-import { renderMarkdown } from '@/utils/markdown'
-import ShareButton from '@/components/ShareButton.vue'
-import type { Project } from '@/types/Projects'
-import ScreenshotGallery from '../..//components/ScreenshotGallery.vue'
+import ShareButton from "@/components/ShareButton.vue";
+import type { Project } from "@/types/Projects";
+import { renderMarkdown } from "@/utils/markdown";
+import ScreenshotGallery from "../..//components/ScreenshotGallery.vue";
+import { useProjectsStore } from "../../stores/projects";
 
-const route = useRoute()
-const projectsStore = useProjectsStore()
-const project = ref<Project | null>(null)
-const renderedContent = ref('')
-const ctxWindow = window
+const route = useRoute();
+const projectsStore = useProjectsStore();
+const project = ref<Project | null>(null);
+const renderedContent = ref("");
+const ctxWindow = window;
 
 onMounted(async () => {
-  projectsStore.loadProjects()
-  const fetchedProject = projectsStore.getProjectBySlug(route.params.slug as string)
+	projectsStore.loadProjects();
+	const fetchedProject = projectsStore.getProjectBySlug(
+		route.params.slug as string,
+	);
 
-  if (fetchedProject) {
-    project.value = JSON.parse(JSON.stringify(fetchedProject))
-    if (project.value?.content)
-      renderedContent.value = renderMarkdown(project.value.content.toString())
-    console.log(project.value.screenshots)
-  }
-})
+	if (fetchedProject) {
+		project.value = JSON.parse(JSON.stringify(fetchedProject));
+		if (project.value?.content)
+			renderedContent.value = renderMarkdown(project.value.content.toString());
+	}
+});
 </script>
 
 <template>
-  <main class="page" v-if="project">
+  <template v-if="project">
     <header class="project-header">
       <div class="title-row">
         <h1>{{ project.title }}</h1>
@@ -70,10 +71,10 @@ onMounted(async () => {
     <article v-html="renderedContent"></article>
 
     <ScreenshotGallery :screenshots="project.screenshots" />
-  </main>
-  <main v-else class="page">
+  </template>
+  <template v-else>
     <h2>Project not found</h2>
-  </main>
+  </template>
 </template>
 
 <style scoped lang="scss">

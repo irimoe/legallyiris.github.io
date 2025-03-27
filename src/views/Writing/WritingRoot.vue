@@ -9,28 +9,26 @@ postsStore.loadPosts();
 </script>
 
 <template>
-  <main class="page">
-    <h1>writing</h1>
-    <p>i write about things that interest me sometimes</p>
-    <hr />
+  <h1>writing</h1>
+  <p>i write about things that interest me sometimes</p>
+  <hr />
 
-    <div class="posts" v-if="posts.length">
-      <article v-for="post in posts" :key="post.slug" class="post-preview">
-        <RouterLink :to="`/writing/${post.slug}`">
-          <h3>{{ post.title }}</h3>
-        </RouterLink>
-        <div class="post-meta">
-          <time>{{ new Date(post.date).toLocaleDateString() }}</time>
-          <span>{{ post.readingTime }}</span>
-        </div>
-        <p>{{ post.description }}</p>
-      </article>
-    </div>
-    <div v-else>
-      <h3>no posts found</h3>
-      <p>check back later.</p>
-    </div>
-  </main>
+  <div class="posts" v-if="posts.length">
+    <article v-for="post in posts" :key="post.slug" class="post-preview">
+      <RouterLink :to="`/writing/${post.slug}`">
+        <h3>{{ post.title }}</h3>
+      </RouterLink>
+      <div class="post-meta">
+        <time>{{ new Date(post.date).toLocaleDateString() }}</time>
+        <span>{{ post.readingTime }}</span>
+      </div>
+      <p>{{ post.description }}</p>
+    </article>
+  </div>
+  <div v-else>
+    <h3>no posts found</h3>
+    <p>check back later.</p>
+  </div>
 </template>
 
 <style scoped lang="scss">
