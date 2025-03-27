@@ -5,6 +5,7 @@ import { RouterView } from "vue-router";
 import router from "./../router";
 
 const currentTransition = ref("slide-right");
+const initialLoad = ref(true);
 
 const getRouteIndex = (path: string) => {
 	const routes = router.getRoutes();
@@ -64,6 +65,11 @@ watch(
 watch(
 	() => router.currentRoute.value,
 	async () => {
+		if (initialLoad.value) {
+			initialLoad.value = false;
+			return;
+		}
+
 		await nextTick();
 		await new Promise((resolve) => setTimeout(resolve, 300));
 		const main = document.querySelector(".pane-panel.content") as HTMLElement;
