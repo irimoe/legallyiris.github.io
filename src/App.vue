@@ -71,7 +71,7 @@ const links: Link[] = [
   </nav>
 
   <div class="pane main-pane">
-    <div class="pane-item vertical profile">
+    <aside class="pane-item vertical profile">
       <div class="pane-panel pane-main">
         <img src="/me.webp" alt="profile picture" />
         <h2>hi, i'm <span class="name">iris.</span></h2>
@@ -105,7 +105,7 @@ const links: Link[] = [
       <div class="pane-panel pane-main">
         made with meows
       </div>
-    </div>
+    </aside>
     <ContentView />
   </div>
 
