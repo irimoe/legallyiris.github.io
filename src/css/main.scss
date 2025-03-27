@@ -108,5 +108,8 @@ a {
 @media (max-width: 600px) {
   .pane {
     grid-template-columns: 1fr;
+    .pane-item.profile {
+        position: unset;
+    }
   }
 }
