@@ -8,10 +8,11 @@
     <script>
       const urlParams = new URLSearchParams(window.location.search);
       const redirect = urlParams.get('redirect');
-      
-      if (!redirect) return
-      const url = redirect;
-      window.history.replaceState({}, document.title, url);
+
+      if (redirect) {
+        const url = redirect;
+        window.history.replaceState({}, document.title, url);
+      }
     </script>
   </head>
   <body class="theme-mocha">
