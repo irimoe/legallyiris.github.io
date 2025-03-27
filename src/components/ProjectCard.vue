@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import type { Project } from '@/types/Projects'
-import { computed } from 'vue'
+import type { Project } from "@/types/Projects";
+import { computed } from "vue";
 
 const props = defineProps<{
-  project: Project
-}>()
+	project: Project;
+}>();
 
 const statusColor = computed(() => {
-  switch (props.project.status) {
-    case 'active':
-      return 'var(--green)'
-    case 'maintained':
-      return 'var(--blue)'
-    case 'archived':
-      return 'var(--overlay0)'
-  }
+	switch (props.project.status) {
+		case "active":
+			return "var(--green)";
+		case "maintained":
+			return "var(--blue)";
+		case "archived":
+			return "var(--overlay0)";
+	}
 
-  return 'var(--subtext0)'
-})
+	return "var(--subtext0)";
+});
 </script>
 
 <template>
   <RouterLink :to="`/projects/${project.slug}`" class="project-card">
     <div class="project-header">
-      <h3>{{ project.title }}</h3>
+      <h2>{{ project.title }}</h2>
       <div class="status" :style="{ '--status-color': statusColor }">
         {{ project.status }}
       </div>
@@ -63,7 +63,7 @@ const statusColor = computed(() => {
     align-items: center;
     margin-bottom: 0.5rem;
 
-    h3 {
+    h2 {
       margin: 0;
       font-size: 1.25rem;
       color: hsla(var(--subtext0) / 1);
