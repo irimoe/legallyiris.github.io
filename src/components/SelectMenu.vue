@@ -126,6 +126,11 @@ const toggleOpen = () => {
 	}
 };
 
+const getFocusableElements = () => {
+	if (!dropdownMenu.value) return [];
+	return Array.from(dropdownMenu.value.querySelectorAll('li[tabindex="0"]'));
+};
+
 const hoverOption = (option: Option) => {
 	if (!props.activeOnHover) return;
 	hoverOptionValue.value = option;
@@ -200,6 +205,15 @@ onUnmounted(() => {
 
 const handleKeyDown = (event: KeyboardEvent) => {
 	if (isOpen.value) {
+		const focusableElements = getFocusableElements();
+		if (focusableElements.length === 0) return;
+
+		if (event.key === "Escape") {
+			isOpen.value = false;
+			const button = selectContainer.value?.querySelector(".select-button");
+			if (button) (button as HTMLElement).focus();
+		}
+
 		const listItems = document.querySelectorAll(
 			`#optionlist-${randomId.value} li`,
 		);
@@ -220,14 +234,16 @@ const handleKeyDown = (event: KeyboardEvent) => {
 			(listItems[currentIndex] as HTMLElement).click();
 			return;
 		} else if (event.key === "Tab") {
-			if (event.shiftKey && currentIndex > 0) {
-				event.preventDefault();
-				currentIndex -= 1;
-			} else if (!event.shiftKey && currentIndex < listItems.length - 1) {
-				event.preventDefault();
-				currentIndex += 1;
-			}
+			event.preventDefault();
+			currentIndex = event.shiftKey
+				? currentIndex > 0
+					? currentIndex - 1
+					: focusableElements.length - 1
+				: currentIndex < focusableElements.length - 1
+					? currentIndex + 1
+					: 0;
 		}
+
 		(listItems[currentIndex] as HTMLElement).focus();
 		if (props.activeOnHover) {
 			hoverOption(props.options[currentIndex]);
