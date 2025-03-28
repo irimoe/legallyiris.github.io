@@ -25,7 +25,7 @@
       </template>
     </button>
     <ul
-      id="options-list"
+      :id="`optionlist-${randomId}`"
       ref="dropdownMenu"
       role="listbox"
       class="options-list"
@@ -92,9 +92,10 @@ const dropdownPosition = ref({});
 const isOpen = ref(false);
 const buttonWidth = ref("100px");
 const hoverOptionValue = ref<Option>({ value: "", label: "" });
-const labelId = ref(
-	`select-label-${Math.random().toString(36).substring(2, 9)}`,
-);
+
+const randomId = ref(Math.random().toString(36).substring(2, 9));
+const labelId = ref(`select-label-${randomId.value}`);
+
 const activeDescendantId = computed(() =>
 	selectedOption.value ? `option-${selectedOption.value.value}` : "",
 );
@@ -116,7 +117,9 @@ const toggleOpen = () => {
 	const opened = !isOpen.value;
 	if (opened) {
 		isOpen.value = opened;
-		const firstItem = document.querySelector("#options-list li");
+		const firstItem = document.querySelector(
+			`#optionlist-${randomId.value} li`,
+		);
 		if (firstItem) (firstItem as HTMLElement).focus();
 	} else {
 		isOpen.value = opened;
@@ -197,7 +200,9 @@ onUnmounted(() => {
 
 const handleKeyDown = (event: KeyboardEvent) => {
 	if (isOpen.value) {
-		const listItems = document.querySelectorAll(".options-list li");
+		const listItems = document.querySelectorAll(
+			`#optionlist-${randomId.value} li`,
+		);
 		let currentIndex = Array.from(listItems).indexOf(
 			event.target as HTMLElement,
 		);
@@ -230,7 +235,9 @@ const handleKeyDown = (event: KeyboardEvent) => {
 	} else if (event.key === "Enter" || event.key === " ") {
 		toggleOpen();
 		nextTick(() => {
-			const firstItem = document.querySelector("#options-list li:first-child");
+			const firstItem = document.querySelector(
+				`#optionlist-${randomId.value} li:first-child`,
+			);
 			if (!firstItem) return;
 			(firstItem as HTMLElement).focus();
 		});
@@ -240,7 +247,10 @@ const handleKeyDown = (event: KeyboardEvent) => {
 const handleBlur = (event: FocusEvent) => {
 	if (!isOpen.value) return;
 	const relatedTarget = event.relatedTarget as HTMLElement | null;
-	if (!relatedTarget || !relatedTarget.closest(".options-list")) {
+	if (
+		!relatedTarget ||
+		!relatedTarget.closest(`#optionlist-${randomId.value}`)
+	) {
 		isOpen.value = false;
 	}
 };
