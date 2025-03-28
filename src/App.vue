@@ -53,7 +53,9 @@ const links: Link[] = [
 ];
 
 function scrollToMainContent() {
-	const mainHeading = document.querySelector(".pane-main h1") as HTMLElement;
+	const mainHeading = document.querySelector(
+		".pane-panel.content h1",
+	) as HTMLElement;
 	if (mainHeading) {
 		mainHeading.setAttribute("tabindex", "-1");
 		mainHeading.focus();
