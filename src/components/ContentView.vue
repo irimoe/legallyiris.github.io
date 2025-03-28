@@ -77,9 +77,6 @@ watch(
 		if (mainHeading) {
 			mainHeading.setAttribute("tabindex", "-1");
 			mainHeading.focus();
-			setTimeout(() => {
-				mainHeading.removeAttribute("tabindex");
-			}, 100);
 		}
 	},
 );
