@@ -72,10 +72,14 @@ watch(
 
 		await nextTick();
 		await new Promise((resolve) => setTimeout(resolve, 300));
-		const main = document.querySelector(".pane-panel.content") as HTMLElement;
-		if (main) {
-			main.setAttribute("tabindex", "-1");
-			main.focus();
+
+		const mainHeading = document.querySelector(".pane-main h1") as HTMLElement;
+		if (mainHeading) {
+			mainHeading.setAttribute("tabindex", "-1");
+			mainHeading.focus();
+			setTimeout(() => {
+				mainHeading.removeAttribute("tabindex");
+			}, 100);
 		}
 	},
 );
@@ -125,19 +129,5 @@ watch(
 .slide-right-leave-to {
   opacity: 0;
   transform: translateX(30px);
-}
-
-
-.pane-panel.content:focus {
-  outline: 1px solid red;
-}
-
-.pane-panel.content:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.pane-panel.content:focus-visible {
-  outline: 2px solid hsla(var(--blue) / 0.5);
-  border-radius: 0.5rem;
 }
 </style>

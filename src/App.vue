@@ -53,11 +53,13 @@ const links: Link[] = [
 ];
 
 function scrollToMainContent() {
-	const main = document.querySelector(".pane-panel.content") as HTMLElement;
-	if (main) {
-		main.setAttribute("tabindex", "-1");
-		main.focus();
-		main.scrollIntoView({ behavior: "smooth" });
+	const mainHeading = document.querySelector(".pane-main h1") as HTMLElement;
+	if (mainHeading) {
+		mainHeading.setAttribute("tabindex", "-1");
+		mainHeading.focus();
+		setTimeout(() => {
+			mainHeading.removeAttribute("tabindex");
+		}, 100);
 	}
 }
 </script>
