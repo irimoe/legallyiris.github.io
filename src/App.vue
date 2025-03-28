@@ -6,14 +6,14 @@ import {
 	faGithub,
 	faLastfm,
 } from "@fortawesome/free-brands-svg-icons";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { RouterLink } from "vue-router";
 
+import { buildInfo } from "@/buildInfo";
 import ContentView from "@/components/ContentView.vue";
 import ThemeSelector from "@/components/ThemeSelector.vue";
 import Tooltip from "@/components/ToolTip.vue";
-import router from "./router";
+import router from "@/router";
 
 type Link =
 	| {
@@ -51,6 +51,17 @@ const links: Link[] = [
 		icon: faLastfm,
 	},
 ];
+
+const formattedDate = new Date(buildInfo.buildTime).toLocaleDateString(
+	"en-US",
+	{
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	},
+);
 
 function scrollToMainContent() {
 	const mainHeading = document.querySelector(
@@ -119,8 +130,12 @@ function scrollToMainContent() {
           </Tooltip>
         </div>
       </div>
-      <div class="pane-panel pane-main">
-        made with meows
+      <div class="pane-panel pane-main footer-info">
+        <div>made with meows</div>
+        <div class="build-info">
+          <span>commit: <a :href="`https://github.com/legallyiris/legallyiris.github.io/commit/${buildInfo.commitHash}`" target="_blank" rel="noopener">{{ buildInfo.commitHash.substring(0, 7) }}</a></span>
+          <span>built: {{ formattedDate }}</span>
+        </div>
       </div>
     </aside>
     <ContentView />
@@ -137,8 +152,6 @@ function scrollToMainContent() {
 
 <style scoped lang="scss">
 @use 'css/_variables.scss' as *;
-
-
 
 nav.main-nav {
   position: fixed;
@@ -301,6 +314,31 @@ nav.main-nav {
   p {
     font-size: 0.875rem;
     color: hsl(var(--subtext0));
+  }
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: hsla(var(--subtext0) / 0.7);
+
+  .build-info {
+    display: flex;
+    flex-direction: column;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+
+    a {
+      color: hsla(var(--blue) / 0.8);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        color: hsla(var(--blue) / 1);
+      }
+    }
   }
 }
 
