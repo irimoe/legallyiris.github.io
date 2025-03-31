@@ -103,7 +103,7 @@ watch(
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-	transition: all $transition;
+	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .slide-left-enter-from {
@@ -113,6 +113,7 @@ watch(
 .slide-left-leave-to {
 	opacity: 0;
 	transform: translateX(-30px);
+	filter: blur(1rem) brightness(0.25);
 }
 
 .slide-right-enter-from {
