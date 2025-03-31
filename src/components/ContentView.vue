@@ -124,4 +124,21 @@ watch(
 	opacity: 0;
 	transform: translateX(30px);
 }
+
+@media (prefers-reduced-motion: reduce) {
+	.slide-left-enter-active,
+	.slide-left-leave-active,
+	.slide-right-enter-active,
+	.slide-right-leave-active {
+		transition: none;
+	}
+
+	.slide-left-enter-from,
+	.slide-left-leave-to,
+	.slide-right-enter-from,
+	.slide-right-leave-to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
 </style>
