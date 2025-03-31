@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import ShareButton from "@/components/ShareButton.vue";
-import { usePostsStore } from "@/stores/posts";
-import { renderMarkdown } from "@/utils/markdown";
-import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import ShareButton from '@/components/ShareButton.vue'
+import { usePostsStore } from '@/stores/posts'
+import { renderMarkdown } from '@/utils/markdown'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
-const route = useRoute();
-const postsStore = usePostsStore();
-const renderedContent = ref("");
-const post = ref(null);
+const route = useRoute()
+const postsStore = usePostsStore()
+const renderedContent = ref('')
+const post = ref(null)
 
 const shareUrl = computed(() => {
-	return `${window.location.origin}${route.fullPath}`;
-});
+  return `${window.location.origin}${route.fullPath}`
+})
 
 onMounted(async () => {
-	await postsStore.loadPosts();
-	post.value = postsStore.getPostBySlug(route.params.slug as string);
-	if (post.value) renderedContent.value = renderMarkdown(post.value.content);
-});
+  await postsStore.loadPosts()
+  post.value = postsStore.getPostBySlug(route.params.slug as string)
+  if (post.value) {
+    renderedContent.value = renderMarkdown(post.value.content)
+    document.title = post.value.title ? `${post.value.title} - iris` : 'post - iris'
+  }
+})
 </script>
 
 <template>

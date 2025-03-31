@@ -1,33 +1,32 @@
 <script setup lang="ts">
-import { faCode, faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { faCode, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
-import ShareButton from "@/components/ShareButton.vue";
-import type { Project } from "@/types/Projects";
-import { renderMarkdown } from "@/utils/markdown";
-import ScreenshotGallery from "../..//components/ScreenshotGallery.vue";
-import { useProjectsStore } from "../../stores/projects";
+import ShareButton from '@/components/ShareButton.vue'
+import type { Project } from '@/types/Projects'
+import { renderMarkdown } from '@/utils/markdown'
+import ScreenshotGallery from '../..//components/ScreenshotGallery.vue'
+import { useProjectsStore } from '../../stores/projects'
 
-const route = useRoute();
-const projectsStore = useProjectsStore();
-const project = ref<Project | null>(null);
-const renderedContent = ref("");
-const ctxWindow = window;
+const route = useRoute()
+const projectsStore = useProjectsStore()
+const project = ref<Project | null>(null)
+const renderedContent = ref('')
+const ctxWindow = window
 
 onMounted(async () => {
-	projectsStore.loadProjects();
-	const fetchedProject = projectsStore.getProjectBySlug(
-		route.params.slug as string,
-	);
+  projectsStore.loadProjects()
+  const fetchedProject = projectsStore.getProjectBySlug(route.params.slug as string)
 
-	if (fetchedProject) {
-		project.value = JSON.parse(JSON.stringify(fetchedProject));
-		if (project.value?.content)
-			renderedContent.value = renderMarkdown(project.value.content.toString());
-	}
-});
+  if (fetchedProject) {
+    project.value = JSON.parse(JSON.stringify(fetchedProject))
+    document.title = project.value?.title ? `${project.value.title} - iris` : 'post - iris'
+    if (project.value?.content)
+      renderedContent.value = renderMarkdown(project.value.content.toString())
+  }
+})
 </script>
 
 <template>
