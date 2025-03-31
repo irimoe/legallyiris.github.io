@@ -5,16 +5,19 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import ShareButton from '@/components/ShareButton.vue'
+import SkeletonPost from '@/components/SkeletonPost.vue'
+import ScreenshotGallery from '@/components/ScreenshotGallery.vue'
+
 import type { Project } from '@/types/Projects'
 import { renderMarkdown } from '@/utils/markdown'
-import ScreenshotGallery from '../..//components/ScreenshotGallery.vue'
-import { useProjectsStore } from '../../stores/projects'
+import { useProjectsStore } from '@/stores/projects'
 
 const route = useRoute()
 const projectsStore = useProjectsStore()
 const project = ref<Project | null>(null)
 const renderedContent = ref('')
 const ctxWindow = window
+const loading = ref(true)
 
 onMounted(async () => {
 	projectsStore.loadProjects()
@@ -26,11 +29,15 @@ onMounted(async () => {
 		if (project.value?.content)
 			renderedContent.value = renderMarkdown(project.value.content.toString())
 	}
+
+	loading.value = false
 })
 </script>
 
 <template>
-	<template v-if="project">
+	<SkeletonPost v-if="loading" />
+
+	<template v-if="project && !loading">
 		<header class="project-header">
 			<div class="title-row">
 				<h1>{{ project.title }}</h1>
@@ -71,8 +78,8 @@ onMounted(async () => {
 
 		<ScreenshotGallery :screenshots="project.screenshots" />
 	</template>
-	<template v-else>
-		<h2>Project not found</h2>
+	<template v-else-if="!project && !loading">
+		<h2>project not found</h2>
 	</template>
 </template>
 

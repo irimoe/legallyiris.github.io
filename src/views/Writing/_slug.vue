@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import ShareButton from '@/components/ShareButton.vue'
+import SkeletonPost from '@/components/SkeletonPost.vue'
+
 import { usePostsStore } from '@/stores/posts'
+import type { Post } from '@/types/Posts'
 import { renderMarkdown } from '@/utils/markdown'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -8,7 +11,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const postsStore = usePostsStore()
 const renderedContent = ref('')
-const post = ref(null)
+const post = ref(null as Post | null)
+const loading = ref(true)
 
 const shareUrl = computed(() => {
 	return `${window.location.origin}${route.fullPath}`
@@ -16,32 +20,39 @@ const shareUrl = computed(() => {
 
 onMounted(async () => {
 	await postsStore.loadPosts()
-	post.value = postsStore.getPostBySlug(route.params.slug as string)
+
+	post.value = postsStore.getPostBySlug(route.params.slug as string) || null
 	if (post.value) {
 		renderedContent.value = renderMarkdown(post.value.content)
 		document.title = post.value.title ? `${post.value.title} - iris` : 'post - iris'
 	}
+
+	loading.value = false
 })
 </script>
 
 <template>
-	<article v-if="post" class="post">
-		<header>
-			<div class="post-header">
-				<h1>{{ post.title }}</h1>
-				<ShareButton :title="post.title" :url="shareUrl" />
-			</div>
-			<div class="post-meta">
-				<time>{{ new Date(post.date!).toLocaleDateString() }}</time>
-				<span>~{{ post.readingTime }}</span>
-			</div>
-		</header>
-		<hr />
-		<div class="post-content" v-html="renderedContent"></div>
-	</article>
-	<div v-else>
-		<h2>Post not found</h2>
-	</div>
+	<SkeletonPost v-if="loading"></SkeletonPost>
+
+	<template v-else>
+		<article v-if="post" class="post">
+			<header>
+				<div class="post-header">
+					<h1>{{ post.title }}</h1>
+					<ShareButton :title="post.title" :url="shareUrl" />
+				</div>
+				<div class="post-meta">
+					<time>{{ new Date(post.date!).toLocaleDateString() }}</time>
+					<span>~{{ post.readingTime }}</span>
+				</div>
+			</header>
+			<hr />
+			<div class="post-content" v-html="renderedContent"></div>
+		</article>
+		<div v-else>
+			<h2>Post not found</h2>
+		</div>
+	</template>
 </template>
 
 <style scoped lang="scss">
