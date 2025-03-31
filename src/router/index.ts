@@ -68,7 +68,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	console.log(document.title)
 	document.title = to.meta.title ? `${to.meta.title} - iris` : to.name?.toString() || 'iris'
 	next()
 })
