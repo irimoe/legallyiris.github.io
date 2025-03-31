@@ -24,7 +24,7 @@ which allows users to create accounts, make posts to a predefined channel, and
 reply to other users' posts. Twatter also has tags for government
 representatives, allowing users to distinguish between official and unofficial
 posts. there are also notifications when you're tagged, your post is liked, or
-when someone  replies to your post.
+when someone replies to your post.
 
 ## my part
 

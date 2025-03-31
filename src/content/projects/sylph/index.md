@@ -6,7 +6,7 @@ description: a customisable widget system for wayland compositors, powered by we
 sylph aims to provide a decent alternative to existing projects like
 [Alexays/Waybar] and [Arlur/Astal] that doesn't use the annoyingly limiting
 GTK toolkit, instead opting to embed a webview, allowing the end user to do
-essentially *whatever they want*.
+essentially _whatever they want_.
 
 ## about
 

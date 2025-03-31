@@ -1,105 +1,99 @@
 <script setup lang="ts">
-import Breadcrumb from "@/components/BreadCrumbs.vue";
-import { nextTick, ref, watch } from "vue";
-import { RouterView } from "vue-router";
-import router from "./../router";
+import Breadcrumb from '@/components/BreadCrumbs.vue'
+import { nextTick, ref, watch } from 'vue'
+import { RouterView } from 'vue-router'
+import router from './../router'
 
-const currentTransition = ref("slide-right");
-const initialLoad = ref(true);
+const currentTransition = ref('slide-right')
+const initialLoad = ref(true)
 
 const getRouteIndex = (path: string) => {
-	const routes = router.getRoutes();
+	const routes = router.getRoutes()
 	const flatRoutes = routes.flatMap((route) => {
 		if (route.children) {
-			return [route, ...route.children];
+			return [route, ...route.children]
 		}
-		return route;
-	});
-	return flatRoutes.findIndex((r) => r.path === path);
-};
+		return route
+	})
+	return flatRoutes.findIndex((r) => r.path === path)
+}
 
 const isChildRoute = (from: string, to: string) => {
-	return to.startsWith(from) && to !== from;
-};
+	return to.startsWith(from) && to !== from
+}
 
 const isParentRoute = (from: string, to: string) => {
-	return from.startsWith(to) && from !== to;
-};
+	return from.startsWith(to) && from !== to
+}
 
 watch(
 	() => router.currentRoute.value,
 	(to, from) => {
-		if (!from) return;
+		if (!from) return
 
 		// @ts-expect-error ts is lying.
 		if (window.navigation) {
 			// @ts-expect-error ts is lying.
-			const navType = window.navigation.currentEntry?.navigationType;
-			if (navType === "back") {
-				currentTransition.value = "slide-right";
-				return;
+			const navType = window.navigation.currentEntry?.navigationType
+			if (navType === 'back') {
+				currentTransition.value = 'slide-right'
+				return
 			}
-			if (navType === "forward") {
-				currentTransition.value = "slide-left";
-				return;
+			if (navType === 'forward') {
+				currentTransition.value = 'slide-left'
+				return
 			}
 		}
 
 		if (isChildRoute(from.path, to.path)) {
-			currentTransition.value = "slide-left";
-			return;
+			currentTransition.value = 'slide-left'
+			return
 		}
 		if (isParentRoute(from.path, to.path)) {
-			currentTransition.value = "slide-right";
-			return;
+			currentTransition.value = 'slide-right'
+			return
 		}
 
-		const fromIndex = getRouteIndex(from.path);
-		const toIndex = getRouteIndex(to.path);
-		currentTransition.value =
-			fromIndex < toIndex ? "slide-left" : "slide-right";
+		const fromIndex = getRouteIndex(from.path)
+		const toIndex = getRouteIndex(to.path)
+		currentTransition.value = fromIndex < toIndex ? 'slide-left' : 'slide-right'
 	},
 	{ immediate: true },
-);
+)
 
 watch(
 	() => router.currentRoute.value,
 	async () => {
 		if (initialLoad.value) {
-			initialLoad.value = false;
-			return;
+			initialLoad.value = false
+			return
 		}
 
-		await nextTick();
-		await new Promise((resolve) => setTimeout(resolve, 300));
+		await nextTick()
+		await new Promise((resolve) => setTimeout(resolve, 300))
 
-		const mainHeading = document.querySelector(
-			".pane-panel.content h1",
-		) as HTMLElement;
+		const mainHeading = document.querySelector('.pane-panel.content h1') as HTMLElement
 		if (mainHeading) {
-			mainHeading.setAttribute("tabindex", "-1");
-			mainHeading.focus();
+			mainHeading.setAttribute('tabindex', '-1')
+			mainHeading.focus()
 		}
 	},
-);
+)
 </script>
 
 <template>
-  <RouterView v-slot="{ Component }">
-    <transition :name="currentTransition" mode="out-in">
-      <div :key="$route.path" class="pane-panel content" id="main-view">
-        <nav class="pane-titlebar" aria-label="Breadcrumbs">
-          <Breadcrumb :route="$route" />
-        </nav>
-        <main
-          class="pane-main"
-          :aria-label="`${String($route.name)} page content`"
-        >
-          <component :is="Component" />
-        </main>
-      </div>
-    </transition>
-  </RouterView>
+	<RouterView v-slot="{ Component }">
+		<transition :name="currentTransition" mode="out-in">
+			<div :key="$route.path" class="pane-panel content" id="main-view">
+				<nav class="pane-titlebar" aria-label="Breadcrumbs">
+					<Breadcrumb :route="$route" />
+				</nav>
+				<main class="pane-main" :aria-label="`${String($route.name)} page content`">
+					<component :is="Component" />
+				</main>
+			</div>
+		</transition>
+	</RouterView>
 </template>
 
 <style scoped lang="scss">
@@ -109,24 +103,24 @@ watch(
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all $transition;
+	transition: all $transition;
 }
 
 .slide-left-enter-from {
-  opacity: 0;
-  transform: translateX(30px);
+	opacity: 0;
+	transform: translateX(30px);
 }
 .slide-left-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
+	opacity: 0;
+	transform: translateX(-30px);
 }
 
 .slide-right-enter-from {
-  opacity: 0;
-  transform: translateX(-30px);
+	opacity: 0;
+	transform: translateX(-30px);
 }
 .slide-right-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
+	opacity: 0;
+	transform: translateX(30px);
 }
 </style>

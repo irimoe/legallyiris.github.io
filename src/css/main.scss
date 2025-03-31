@@ -52,33 +52,33 @@ a {
 
   .pane-item {
     &.profile {
-        position: sticky;
-        top: 4rem;
-        align-self: flex-start;
+      position: sticky;
+      top: 4rem;
+      align-self: flex-start;
     }
 
     &.vertical {
-        display: flex;
-        flex-direction: column;
-        background: none;
-        border: none;
-        overflow-x: hidden;
-        gap: 0.2rem;
-        .pane-panel {
-            &:first-child {
-                border-bottom-left-radius: 0.25rem;
-                border-bottom-right-radius: 0.25rem
-            }
-
-            &:last-child {
-                border-top-left-radius: 0.25rem;
-                border-top-right-radius: 0.25rem;
-            }
-
-            &:not(:first-child):not(:last-child) {
-                border-radius: 0.25rem;
-            }
+      display: flex;
+      flex-direction: column;
+      background: none;
+      border: none;
+      overflow-x: hidden;
+      gap: 0.2rem;
+      .pane-panel {
+        &:first-child {
+          border-bottom-left-radius: 0.25rem;
+          border-bottom-right-radius: 0.25rem;
         }
+
+        &:last-child {
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
+        }
+
+        &:not(:first-child):not(:last-child) {
+          border-radius: 0.25rem;
+        }
+      }
     }
   }
 
@@ -102,14 +102,13 @@ a {
   .pane-main {
     padding: 0.5rem;
   }
-
 }
 
 @media (max-width: 600px) {
   .pane {
     grid-template-columns: 1fr;
     .pane-item.profile {
-        position: unset;
+      position: unset;
     }
   }
 }

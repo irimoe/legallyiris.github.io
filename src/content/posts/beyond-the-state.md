@@ -11,7 +11,6 @@ their function throughout history and in contemporary society, we see a more com
 often come at the cost of exploitation, oppression, and systemic violence. the state is not merely a neutral provider
 of services, but also acts as a tool for maintaining existing power structures and privileges.
 
-
 ## the illusion of democracy
 
 western liberal democracies pride themselves on representing the _"will of the people"_ through electoral systems and
