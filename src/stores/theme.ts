@@ -10,14 +10,12 @@ export const useThemeStore = defineStore('theme', () => {
 		const savedTheme = localStorage.getItem('theme') as Theme | null
 		if (savedTheme) {
 			theme.value = savedTheme
+			document.body.className = `theme-${theme.value}`
 			return
 		}
 
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			theme.value = 'mocha'
-		} else {
-			theme.value = 'latte'
-		}
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) theme.value = 'mocha'
+		else theme.value = 'latte'
 	}
 
 	const systemThemeWatcher = window.matchMedia('(prefers-color-scheme: dark)')
@@ -34,6 +32,8 @@ export const useThemeStore = defineStore('theme', () => {
 
 	const setTheme = (newTheme: Theme) => {
 		theme.value = newTheme
+		document.body.className = `theme-${newTheme}`
+		localStorage.setItem('theme', newTheme)
 	}
 
 	return {
