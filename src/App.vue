@@ -292,7 +292,6 @@ nav.main-nav {
 	color: hsl(var(--subtext0));
 
 	img {
-		border-radius: 0.5rem;
 		width: 6rem;
 		height: 6rem;
 	}

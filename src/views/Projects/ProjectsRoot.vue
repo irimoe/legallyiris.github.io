@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import ProjectCard from '@/components/ProjectCard.vue'
+import ContentCard from '@/components/card/ContentCard.vue'
+import ContentGrid from '@/components/card/ContentGrid.vue'
 import SelectMenu from '@/components/SelectMenu.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { computed, onMounted, ref } from 'vue'
@@ -35,8 +36,20 @@ onMounted(() => {
 	</div>
 	<hr />
 
-	<TransitionGroup name="projects-grid" tag="div" class="projects" v-if="filteredProjects.length">
-		<ProjectCard v-for="project in filteredProjects" :key="project.slug" :project="project" />
+	<TransitionGroup name="projects-grid" tag="div" v-if="filteredProjects.length">
+		<ContentGrid>
+			<ContentCard
+				v-for="project in filteredProjects"
+				:key="project.slug"
+				:title="project.title"
+				:description="project.description"
+				:link="`/projects/${project.slug}`"
+				:meta="{
+					status: project.status,
+					tech: project.tech,
+				}"
+			/>
+		</ContentGrid>
 	</TransitionGroup>
 	<div v-else>
 		<p>no projects found.</p>
