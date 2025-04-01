@@ -214,7 +214,16 @@ function executeCommand(index?: number) {
 			</Transition>
 			<Transition name="dialog-slide">
 				<div class="command-dialog-wrapper" v-if="isOpen">
-					<div class="command-dialog" v-if="isOpen" ref="commandDialog">
+					<span class="sr-only"
+						>use arrow keys to navigate, enter to select, and escape to close</span
+					>
+					<div
+						class="command-dialog"
+						v-if="isOpen"
+						ref="commandDialog"
+						role="dialog"
+						aria-label="Command palette"
+					>
 						<div class="command-input">
 							<FontAwesomeIcon :icon="faMagnifyingGlass" />
 							<input
@@ -222,6 +231,9 @@ function executeCommand(index?: number) {
 								type="text"
 								v-model="searchQuery"
 								placeholder="search commands..."
+								aria-controls="command-results"
+								:aria-activedescendant="selectedCommand?.id"
+								aria-autocomplete="list"
 								@blur="
 									(e) => {
 										if (commandDialog?.contains(e.relatedTarget as Node)) {
@@ -231,7 +243,12 @@ function executeCommand(index?: number) {
 								"
 							/>
 						</div>
-						<div class="command-results">
+						<div
+							class="command-results"
+							id="command-results"
+							role="listbox"
+							aria-label="Available commands"
+						>
 							<div class="scroll-container" v-if="flattenedCommands.length > 0">
 								<div v-for="category in commands" :key="category.name" class="category-container">
 									<div class="category-label">{{ category.name }}</div>
@@ -244,6 +261,8 @@ function executeCommand(index?: number) {
 												'command-container',
 												{ selected: command.id === selectedCommand?.id },
 											]"
+											:aria-selected="command.id === selectedCommand?.id"
+											role="option"
 											@click="
 												executeCommand(flattenedCommands.findIndex((c) => c.id === command.id))
 											"
