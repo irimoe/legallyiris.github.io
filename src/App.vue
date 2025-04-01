@@ -14,6 +14,7 @@ import ContentView from '@/components/ContentView.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import Tooltip from '@/components/ToolTip.vue'
 import router from '@/router'
+import CommandPalette from './components/CommandPalette.vue'
 
 type Link =
 	| {
@@ -70,6 +71,8 @@ function scrollToMainContent() {
 </script>
 
 <template>
+	<CommandPalette />
+
 	<nav aria-label="Skip to main content" class="skip-to-main">
 		<button class="nav-item" @click="scrollToMainContent">Skip to main content</button>
 	</nav>
