@@ -22,6 +22,7 @@
 		"@fortawesome/vue-fontawesome": "^3.0.8",
 		"@types/markdown-it": "^14.1.2",
 		"@vueuse/core": "^12.4.0",
+		"@vueuse/head": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"highlight.js": "^11.11.1",
 		"markdown-it": "^14.1.0",
