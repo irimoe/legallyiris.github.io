@@ -1,9 +1,11 @@
-export interface Post {
+export interface PostMetadata {
 	title: string
 	description: string
-	date: string
+	date: string // iso date string
 	slug: string
-	content: string
-	readingTime: string
-	draft?: boolean
+}
+
+export interface Post extends PostMetadata {
+	content: string // raw markdown content
+	assets: string[] // list of filenames in the assets folder
 }

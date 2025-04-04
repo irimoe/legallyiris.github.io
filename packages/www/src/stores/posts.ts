@@ -1,52 +1,48 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { calculateReadingTime } from '@/utils/readingTime'
-import type { Post } from '@/types/Posts'
+import type { Post, PostMetadata } from '@/types/Posts'
 
 export const usePostsStore = defineStore('posts', () => {
-	const posts = ref<Post[]>([])
+	const postsMetadata = ref<PostMetadata[]>([])
+	const postsCache = ref<Map<string, Post>>(new Map()) // cache for full post data
 
-	const loadPosts = async () => {
-		const postFiles = import.meta.glob('../content/posts/*.md', {
-			query: '?raw',
-			import: 'default',
-			eager: true,
-		})
+	async function fetchPostsMetadata(): Promise<void> {
+		if (postsMetadata.value.length > 0) return // already loaded
 
-		const loadedPosts = Object.entries(postFiles).map(([path, content]) => {
-			const [, frontmatter, ...contentParts] = (content as string).split('---')
-			const markdown = contentParts.join('---').trim()
-
-			const frontmatterData = Object.fromEntries(
-				frontmatter
-					.trim()
-					.split('\n')
-					.map((line: string) => {
-						const [key, ...valueParts] = line.split(':')
-						return [key.trim(), valueParts.join(':').trim()]
-					}),
-			)
-
-			return {
-				...frontmatterData,
-				content: markdown,
-				slug: path.split('/').pop()?.replace('.md', ''),
-				readingTime: calculateReadingTime(markdown),
-			} as Post
-		})
-
-		posts.value = loadedPosts
-			.filter((post) => !post.draft)
-			.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+		try {
+			const response = await fetch('/api/posts')
+			if (!response.ok) throw new Error(`http error: ${response.status}`)
+			const data = (await response.json()) as PostMetadata[]
+			postsMetadata.value = data
+		} catch (error) {
+			console.error('failed to fetch posts metadata:', error)
+			postsMetadata.value = [] // clear on error
+		}
 	}
 
-	const getPostBySlug = (slug: string) => {
-		return posts.value.find((post) => post.slug === slug)
+	async function fetchPostBySlug(slug: string): Promise<Post | null> {
+		if (postsCache.value.has(slug)) {
+			return postsCache.value.get(slug)!
+		}
+
+		try {
+			const response = await fetch(`/api/posts/${slug}`)
+			if (!response.ok) {
+				if (response.status === 404) return null // not found is expected
+				throw new Error(`http error: ${response.status}`)
+			}
+			const data = (await response.json()) as Post
+			postsCache.value.set(slug, data) // cache the fetched post
+			return data
+		} catch (error) {
+			console.error(`failed to fetch post ${slug}:`, error)
+			return null
+		}
 	}
 
 	return {
-		posts,
-		loadPosts,
-		getPostBySlug,
+		postsMetadata,
+		fetchPostsMetadata,
+		fetchPostBySlug,
 	}
 })

@@ -1,74 +1,54 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Project } from '@/types/Projects'
+import type { Project, ProjectMetadata } from '@/types/Projects'
 
 export const useProjectsStore = defineStore('projects', () => {
-	const projects = ref<Project[]>([])
+	const projectsMetadata = ref<ProjectMetadata[]>([])
+	const projectsCache = ref<Map<string, Project>>(new Map()) // cache for full project data
 
-	const loadProjects = () => {
-		const projectFiles = import.meta.glob('../content/projects/*/index.md', {
-			query: '?raw',
-			import: 'default',
-			eager: true,
-		})
+	async function fetchProjectsMetadata(): Promise<void> {
+		if (projectsMetadata.value.length > 0) return // already loaded
 
-		const metaFiles = import.meta.glob('../content/projects/*/meta.json', {
-			eager: true,
-		})
-
-		const screenshotFiles = import.meta.glob('../content/projects/*/screenshots/*.{png,jpg,webp}', {
-			eager: true,
-			import: 'default',
-		})
-
-		const loadedProjects = Object.entries(projectFiles).map(([path, content]) => {
-			const [, frontmatter, ...contentParts] = (content as string).split('---')
-			const markdown = contentParts.join('---').trim()
-
-			const frontmatterData = Object.fromEntries(
-				frontmatter
-					.trim()
-					.split('\n')
-					.map((line: string) => {
-						const [key, ...valueParts] = line.split(':')
-						return [key.trim(), valueParts.join(':').trim()]
-					}),
-			)
-
-			const projectSlug = path.split('/').slice(-2)[0]
-
-			const screenshots = Object.entries(screenshotFiles)
-				.filter(([path]) => path.includes(`/${projectSlug}/`))
-				.map(([path, moduleUrl]) => ({
-					url: moduleUrl as string,
-					alt: path.split('/').pop()?.split('.')[0] || '',
-				}))
-
-			const metaPath = path.replace('index.md', 'meta.json')
-			const meta = metaFiles[metaPath] as Project
-
-			return {
-				...meta,
-				...frontmatterData,
-				content: markdown,
-				slug: projectSlug,
-				screenshots,
-			} as Project
-		})
-
-		projects.value = loadedProjects.sort((a, b) => {
-			const statusOrder = { active: 0, maintained: 1, archived: 2 }
-			return statusOrder[a.status] - statusOrder[b.status]
-		})
+		try {
+			const response = await fetch('/api/projects')
+			if (!response.ok) throw new Error(`http error: ${response.status}`)
+			const data = (await response.json()) as ProjectMetadata[]
+			projectsMetadata.value = data
+		} catch (error) {
+			console.error('failed to fetch projects metadata:', error)
+			projectsMetadata.value = [] // clear on error
+		}
 	}
 
-	const getProjectBySlug = (slug: string) => {
-		return projects.value.find((project) => project.slug === slug)
+	async function fetchProjectBySlug(slug: string): Promise<Project | null> {
+		if (projectsCache.value.has(slug)) {
+			return projectsCache.value.get(slug)!
+		}
+
+		try {
+			const response = await fetch(`/api/projects/${slug}`)
+			if (!response.ok) {
+				if (response.status === 404) return null // not found is expected
+				throw new Error(`http error: ${response.status}`)
+			}
+			const data = (await response.json()) as Project
+			projectsCache.value.set(slug, data) // cache the fetched project
+			return data
+		} catch (error) {
+			console.error(`failed to fetch project ${slug}:`, error)
+			return null
+		}
+	}
+
+	// helper to construct asset url
+	function getAssetUrl(projectSlug: string, assetFilename: string): string {
+		return `/api/assets/projects/${projectSlug}/${assetFilename}`
 	}
 
 	return {
-		projects,
-		loadProjects,
-		getProjectBySlug,
+		projectsMetadata,
+		fetchProjectsMetadata,
+		fetchProjectBySlug,
+		getAssetUrl,
 	}
 })

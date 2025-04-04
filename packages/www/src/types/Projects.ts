@@ -1,16 +1,16 @@
-export interface Project {
+export interface ProjectMetadata {
 	slug: string
 	title: string
 	description: string
-	status: 'active' | 'maintained' | 'archived'
+	status: 'active' | 'archived' // assuming api provides this based on previous content.ts structure
 	tech: string[]
 	links: {
 		source?: string
-		website?: string
+		website?: string | null
 	}
-	content: string
-	screenshots: {
-		url: string
-		alt: string
-	}[]
+}
+
+export interface Project extends ProjectMetadata {
+	content: string // raw markdown content
+	assets: string[] // list of filenames in the assets folder
 }
