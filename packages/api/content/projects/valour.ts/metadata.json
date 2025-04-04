@@ -1,0 +1,10 @@
+{
+  "title": "valour.ts",
+  "description": " a typescript library for interacting with valour and its api ",
+  "status": "active",
+  "tech": ["typescript"],
+  "links": {
+    "source": "https://git.gay/iris/valour.ts",
+    "website": null
+  }
+}
