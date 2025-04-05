@@ -16,6 +16,12 @@ const router = createRouter({
 			meta: { nav: true, title: 'home' },
 		},
 		{
+			path: '/analytics',
+			name: 'analytics',
+			component: () => import('../views/AnalyticsDashboard.vue'),
+			meta: { nav: true, title: 'analytics' }, // hidden from nav
+		},
+		{
 			path: '/writing',
 			name: 'writing',
 			meta: { nav: true, title: 'writing' },
