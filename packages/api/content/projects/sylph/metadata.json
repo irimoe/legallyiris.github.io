@@ -1,0 +1,9 @@
+{
+  "title": "🪷 sylph",
+  "description": "a customisable widget system for wayland compositors, powered by web technologies.",
+  "status": "active",
+  "tech": ["rust", "gtk"],
+  "links": {
+    "source": "https://git.gay/iris/sylph"
+  }
+}
