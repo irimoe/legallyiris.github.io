@@ -1,0 +1,27 @@
+{
+  "id": "/home",
+  "title": "iris's website",
+  "description": "web developer & rust enthusiast",
+  "icons": [
+    {
+      "src": "https://iri.moe/me.webp",
+      "sizes": "1024x1024",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#f5c2e7",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "shortcuts": [
+      {
+        "name": "writing",
+        "url": "/writing"
+      },
+      {
+        "name": "uses",
+        "url": "/uses"
+      }
+    ]
+}
