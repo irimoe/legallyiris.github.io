@@ -1,19 +1,25 @@
+import { join } from 'node:path'
+
 import { Elysia, t } from 'elysia'
+import { swagger } from '@elysiajs/swagger'
 import { staticPlugin } from '@elysiajs/static'
-import { contentRoutes } from './routes/contentRoutes'
-import { join } from 'path'
+
 import { recordVisit } from './analytics'
+import { contentRoutes } from './routes/contentRoutes'
 import { analyticsRoutes } from './routes/analyticsRoutes'
 
 const DIST_PATH = join(import.meta.dir, '..', '..', 'www', 'dist')
 const SPA_FALLBACK_PATH = join(DIST_PATH, 'index.html')
-console.log(SPA_FALLBACK_PATH)
+
 const apiRoutes = new Elysia({ prefix: '/api' })
-  .get('/', () => 'hi from @web/api!')
+  .get('/', () => 'hi from @web/api!', {
+    response: t.String(),
+  })
   .use(contentRoutes)
   .use(analyticsRoutes)
 
 const app = new Elysia()
+  .use(swagger({ path: '/api/docs' }))
 
   .onRequest(({ server, request }) => {
     const url = new URL(request.url)
