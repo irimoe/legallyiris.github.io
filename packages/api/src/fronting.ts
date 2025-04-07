@@ -1,6 +1,7 @@
 import { Database } from 'bun:sqlite'
+import { config } from './config'
 
-export const db = new Database('system.sqlite', { create: true })
+export const db = new Database(config.paths.databases.system, { create: true })
 db.exec(`
   create table if not exists alters (
     id text primary key,

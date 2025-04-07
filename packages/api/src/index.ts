@@ -9,8 +9,11 @@ import { contentRoutes } from './routes/contentRoutes'
 import { analyticsRoutes } from './routes/analyticsRoutes'
 import { frontingRoutes } from './routes/frontingRoutes'
 
-const DIST_PATH = join(import.meta.dir, '..', '..', 'www', 'dist')
+import { config } from './config'
+
+const DIST_PATH = join(config.workingDirectory, config.paths.dist)
 const SPA_FALLBACK_PATH = join(DIST_PATH, 'index.html')
+console.log(DIST_PATH, SPA_FALLBACK_PATH, config.workingDirectory)
 
 const apiRoutes = new Elysia({ prefix: '/api' })
   .get('/', () => 'hi from @web/api!', {
@@ -21,22 +24,27 @@ const apiRoutes = new Elysia({ prefix: '/api' })
   .use(frontingRoutes)
 
 const app = new Elysia()
+  // @ts-expect-error what
   .use(swagger({ path: '/api/docs' }))
 
   .onRequest(({ server, request }) => {
     const url = new URL(request.url)
     const path = url.pathname
 
-    let clientIp =
-      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-      server?.requestIP(request) ||
-      'unknown'
+    const doNotTrack = request.headers.get('dnt') === '1'
 
-    if (typeof clientIp === 'object' && 'address' in clientIp) {
-      clientIp = clientIp.address
+    if (!doNotTrack) {
+      let clientIp =
+        request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+        server?.requestIP(request) ||
+        'unknown'
+
+      if (typeof clientIp === 'object' && 'address' in clientIp) {
+        clientIp = clientIp.address
+      }
+
+      recordVisit(path, typeof clientIp === 'string' ? clientIp : 'unknown')
     }
-
-    recordVisit(path, typeof clientIp === 'string' ? clientIp : 'unknown')
   })
   .onError(({ code, error, set, path }) => {
     let status: number = 500
@@ -86,7 +94,7 @@ const app = new Elysia()
       alwaysStatic: true,
     }),
   )
-  .listen(3000)
+  .listen(process.env.PORT || 3000)
 
 const url = `http://${app.server?.hostname}:${app.server?.port}`
 console.log(`@web/api running on ${url}`)

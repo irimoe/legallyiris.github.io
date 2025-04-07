@@ -59,6 +59,13 @@ onMounted(() => {
 			<p>
 				this approach respects your privacy while still satisfying my curiosity about site usage.
 			</p>
+			<p>
+				also note that if your browser or application sends the
+				<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/DNT"
+					><code>dnt</code></a
+				>
+				header, it will be respected and no data will be collected.
+			</p>
 		</section>
 
 		<section>

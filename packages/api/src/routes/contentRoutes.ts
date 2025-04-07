@@ -2,7 +2,8 @@ import Elysia, { t } from 'elysia'
 import { join } from 'path'
 import { getPosts, getPost, getProjects, getProject } from '../content'
 
-const CONTENT_DIR = join(process.cwd(), 'content')
+import { config } from '../config'
+const CONTENT_DIR = join(config.workingDirectory, config.paths.content)
 
 const slugParamsSchema = t.Object({ slug: t.String() })
 const assetParamsSchema = t.Object({
