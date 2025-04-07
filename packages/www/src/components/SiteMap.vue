@@ -95,13 +95,21 @@ onMounted(async () => {
 	border: none;
 	color: hsla(var(--subtext0) / 1);
 	background-color: hsla(var(--subtext0) / 0.1);
-	border-radius: 0.5rem;
+	border-radius: 5rem;
 	padding: 0.25rem 0.5rem;
 	cursor: pointer;
 	font-size: 0.75rem;
 
+	transform: scale(1);
+	transition: 0.2s ease-in-out;
+
 	&:hover {
 		color: hsla(var(--text) / 1);
+		background-color: hsla(var(--subtext0) / 0.2);
+	}
+
+	&:active {
+		transform: scale(0.98);
 	}
 }
 
