@@ -10,7 +10,14 @@ export const home = [
 		path: '/home',
 		name: 'home',
 		component: HomeView,
-		meta: { nav: true, title: 'home' },
+		meta: {
+			nav: true,
+			title: 'home',
+			commandPalette: {
+				enabled: true,
+				description: 'go to the home page',
+			},
+		},
 	},
 ]
 
@@ -18,7 +25,14 @@ export const uses = {
 	path: '/uses',
 	name: 'uses',
 	component: () => import('../views/UsesView.vue'),
-	meta: { nav: true, title: 'uses' },
+	meta: {
+		nav: true,
+		title: 'uses',
+		commandPalette: {
+			enabled: true,
+			description: 'view the list of things that i use in my life',
+		},
+	},
 }
 
 export const analytics = {

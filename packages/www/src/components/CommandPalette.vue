@@ -42,7 +42,11 @@ const allCommands = () => {
 			.map((route) => ({
 				id: route.name as string,
 				name: route.name as string,
-				description: `navigate to ${String(route.name)}`,
+				description:
+					String(
+						(route.meta.commandPalette as null | { description: string; [key: string]: unknown })
+							?.description,
+					) || `navigate to ${String(route.name)}`,
 				action: () => router.push(route.path),
 			})),
 	}

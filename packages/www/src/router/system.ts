@@ -1,13 +1,18 @@
 export default {
 	path: '/system',
 	name: 'system',
-	meta: { nav: false, title: 'system', commandPalette: true },
+	meta: {
+		title: 'system',
+		commandPalette: {
+			enabled: true,
+			description: "check who's currently fronting and read more about us",
+		},
+	},
 	children: [
 		{
 			name: 'system root',
 			path: '',
 			component: () => import('../views/System/SystemRoot.vue'),
-			meta: { title: 'system' },
 		},
 		{
 			path: 'switch',
