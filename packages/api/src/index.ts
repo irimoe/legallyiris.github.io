@@ -7,6 +7,7 @@ import { staticPlugin } from '@elysiajs/static'
 import { recordVisit } from './analytics'
 import { contentRoutes } from './routes/contentRoutes'
 import { analyticsRoutes } from './routes/analyticsRoutes'
+import { frontingRoutes } from './routes/frontingRoutes'
 
 const DIST_PATH = join(import.meta.dir, '..', '..', 'www', 'dist')
 const SPA_FALLBACK_PATH = join(DIST_PATH, 'index.html')
@@ -17,6 +18,7 @@ const apiRoutes = new Elysia({ prefix: '/api' })
   })
   .use(contentRoutes)
   .use(analyticsRoutes)
+  .use(frontingRoutes)
 
 const app = new Elysia()
   .use(swagger({ path: '/api/docs' }))

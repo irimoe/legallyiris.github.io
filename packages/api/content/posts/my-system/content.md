@@ -1,3 +1,5 @@
+*who's fronting right now?* check [here](/system)
+
 living with dissociative identity disorder (or DID, as i will refer to it),
 means that my mind is home to multiple different identities, each with their
 own thoughts, feelings, and experiences. this is commonly referred to as a
