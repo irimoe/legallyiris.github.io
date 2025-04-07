@@ -19,7 +19,7 @@ const router = createRouter({
 			path: '/analytics',
 			name: 'analytics',
 			component: () => import('../views/AnalyticsDashboard.vue'),
-			meta: { nav: true, title: 'analytics' }, // hidden from nav
+			meta: { nav: false, title: 'analytics', commandPalette: true },
 		},
 		{
 			path: '/writing',
@@ -63,6 +63,25 @@ const router = createRouter({
 			name: 'uses',
 			component: () => import('../views/UsesView.vue'),
 			meta: { nav: true, title: 'uses' },
+		},
+		{
+			path: '/system',
+			name: 'system',
+			meta: { nav: false, title: 'system', commandPalette: true },
+			children: [
+				{
+					name: 'system-root',
+					path: '',
+					component: () => import('../views/System/SystemRoot.vue'),
+					meta: { title: 'system' },
+				},
+				{
+					path: 'switch',
+					name: 'system-switch',
+					component: () => import('../views/System/SwitchPortal.vue'),
+					meta: { title: 'system switch' },
+				},
+			],
 		},
 		{
 			path: '/:pathMatch(.*)*',

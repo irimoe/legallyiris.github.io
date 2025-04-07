@@ -38,7 +38,7 @@ const allCommands = () => {
 		name: 'routes',
 		commands: router
 			.getRoutes()
-			.filter((route) => route.meta.nav || route.name === 'home')
+			.filter((route) => route.meta.nav || route.name === 'home' || route.meta.commandPalette)
 			.map((route) => ({
 				id: route.name as string,
 				name: route.name as string,
