@@ -1,10 +1,10 @@
 import { readFile, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
+import { config } from './config'
 
-const CONTENT_DIR = join(process.cwd(), 'content')
+const CONTENT_DIR = config.paths.content
 
 // --- Types ---
-
 interface BaseMetadata {
   title: string
   description: string

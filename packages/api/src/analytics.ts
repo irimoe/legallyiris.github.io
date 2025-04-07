@@ -1,7 +1,10 @@
 import { Database } from 'bun:sqlite'
 import Elysia from 'elysia'
 
-export const db = new Database('analytics.sqlite', { create: true })
+import { config } from './config'
+
+export const db = new Database(config.paths.databases.analytics, { create: true })
+
 db.exec(`
 	create table if not exists path_hits (
 		path text primary key,

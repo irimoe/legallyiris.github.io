@@ -19,7 +19,7 @@
   },
   "private": true,
   "scripts": {
-    "dev:api": "cd packages/api && bun run dev",
+    "dev:api": "bun run --watch packages/api/src/index.ts",
     "dev:www": "cd packages/www && bun run dev",
     "dev": "run-p dev:api dev:www",
     "start": "cd packages/api && bun run start",

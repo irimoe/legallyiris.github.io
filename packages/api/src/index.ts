@@ -9,8 +9,11 @@ import { contentRoutes } from './routes/contentRoutes'
 import { analyticsRoutes } from './routes/analyticsRoutes'
 import { frontingRoutes } from './routes/frontingRoutes'
 
-const DIST_PATH = join(import.meta.dir, '..', '..', 'www', 'dist')
+import { config } from './config'
+
+const DIST_PATH = join(config.workingDirectory, config.paths.dist)
 const SPA_FALLBACK_PATH = join(DIST_PATH, 'index.html')
+console.log(DIST_PATH, SPA_FALLBACK_PATH, config.workingDirectory)
 
 const apiRoutes = new Elysia({ prefix: '/api' })
   .get('/', () => 'hi from @web/api!', {
@@ -21,6 +24,7 @@ const apiRoutes = new Elysia({ prefix: '/api' })
   .use(frontingRoutes)
 
 const app = new Elysia()
+  // @ts-expect-error what
   .use(swagger({ path: '/api/docs' }))
 
   .onRequest(({ server, request }) => {
@@ -86,7 +90,7 @@ const app = new Elysia()
       alwaysStatic: true,
     }),
   )
-  .listen(3000)
+  .listen(process.env.PORT || 3000)
 
 const url = `http://${app.server?.hostname}:${app.server?.port}`
 console.log(`@web/api running on ${url}`)

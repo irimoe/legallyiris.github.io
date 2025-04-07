@@ -1,5 +1,7 @@
 .env**
 **.sqlite
+bin
+config**.json
 
 # Logs
 logs
