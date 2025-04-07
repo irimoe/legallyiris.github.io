@@ -31,16 +31,20 @@ const app = new Elysia()
     const url = new URL(request.url)
     const path = url.pathname
 
-    let clientIp =
-      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-      server?.requestIP(request) ||
-      'unknown'
+    const doNotTrack = request.headers.get('dnt') === '1'
 
-    if (typeof clientIp === 'object' && 'address' in clientIp) {
-      clientIp = clientIp.address
+    if (!doNotTrack) {
+      let clientIp =
+        request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+        server?.requestIP(request) ||
+        'unknown'
+
+      if (typeof clientIp === 'object' && 'address' in clientIp) {
+        clientIp = clientIp.address
+      }
+
+      recordVisit(path, typeof clientIp === 'string' ? clientIp : 'unknown')
     }
-
-    recordVisit(path, typeof clientIp === 'string' ? clientIp : 'unknown')
   })
   .onError(({ code, error, set, path }) => {
     let status: number = 500
