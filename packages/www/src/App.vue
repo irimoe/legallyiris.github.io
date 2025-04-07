@@ -9,13 +9,18 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { RouterLink } from 'vue-router'
 
-import PrivacyBanner from '@/components/PrivacyBanner.vue'
+import { useFrontingStore } from './stores/fronting'
+
 import { buildInfo } from '@/buildInfo'
+import router from '@/router'
+
+import PrivacyBanner from '@/components/PrivacyBanner.vue'
+import SiteMap from '@/components/SiteMap.vue'
 import ContentView from '@/components/ContentView.vue'
 import ThemeSelector from '@/components/ThemeSelector.vue'
 import Tooltip from '@/components/ToolTip.vue'
-import router from '@/router'
-import CommandPalette from './components/CommandPalette.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
+import { onMounted } from 'vue'
 
 type Link =
   | {
@@ -54,6 +59,8 @@ const links: Link[] = [
   },
 ]
 
+const frontingStore = useFrontingStore()
+
 const formattedDate = new Date(buildInfo.buildTime).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',
@@ -69,6 +76,10 @@ function scrollToMainContent() {
     mainHeading.focus()
   }
 }
+
+onMounted(async () => {
+  await frontingStore.fetchFrontingState()
+})
 </script>
 
 <template>
@@ -126,6 +137,26 @@ function scrollToMainContent() {
             </template>
           </Tooltip>
         </div>
+      </div>
+      <div class="pane-panel pane-main">
+        <div v-if="frontingStore.frontingState" class="fronting-status">
+          <div class="header">
+            <div class="label">currently fronting</div>
+            <RouterLink to="/system" class="system-link">system info</RouterLink>
+          </div>
+          <div v-if="frontingStore.frontingState.alters.length === 0" class="status">
+            blurry state
+          </div>
+          <div v-else class="alters">
+            <span v-for="alter in frontingStore.frontingState.alters" :key="alter.id" class="alter">
+              <span class="name">{{ alter.name }}</span>
+              <span class="pronouns">{{ alter.pronouns }}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="pane-panel pane-main">
+        <SiteMap />
       </div>
       <div class="pane-panel pane-main footer-info">
         <div>made with meows</div>
@@ -326,12 +357,13 @@ nav.main-nav {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  font-size: 0.7rem;
-  color: hsla(var(--subtext0) / 0.7);
+  font-size: 0.9rem;
+  color: hsla(var(--subtext0) / 1);
 
   .build-info {
     display: flex;
     flex-direction: column;
+    color: hsla(var(--subtext0) / 0.7);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
 
@@ -370,6 +402,89 @@ nav.main-nav {
 
   .white {
     background: #fff;
+  }
+}
+
+.fronting-status {
+  font-size: 0.75rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+
+    .label {
+      color: hsla(var(--subtext0) / 0.8);
+    }
+
+    .system-link {
+      font-size: 0.7rem;
+      color: hsl(var(--blue));
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .status {
+    color: hsla(var(--subtext0) / 1);
+    font-style: italic;
+  }
+
+  .alters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .alter {
+      background: hsla(var(--blue) / 0.025);
+      color: hsl(var(--blue));
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      border: 1px solid hsla(var(--blue) / 0.05);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .name {
+        color: hsla(var(--blue) / 1);
+        font-weight: 900;
+      }
+
+      .pronouns {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  @media (max-width: 670px) {
+    .header {
+      .label {
+        font-size: 0.7rem;
+      }
+      .system-link {
+        font-size: 0.65rem;
+      }
+    }
+
+    .alters {
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .alter {
+        padding: 0.2rem 0.375rem;
+        font-size: 0.7rem;
+
+        .pronouns {
+          font-size: 0.65rem;
+          margin-left: 0.375rem;
+        }
+      }
+    }
   }
 }
 </style>
