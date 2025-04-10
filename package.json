@@ -21,15 +21,19 @@
   "scripts": {
     "dev:api": "bun run --watch packages/api/src/index.ts",
     "dev:www": "cd packages/www && bun run dev",
+    "build:www": "cd packages/www && bun run build",
+    "build-only:www": "cd packages/www && bun run build-only",
     "dev": "run-p dev:api dev:www",
     "start": "cd packages/api && bun run start",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
-    "format": "prettier --write --no-error-on-unmatched-pattern packages/**/src/**/*.{ts,tsx,vue}"
+    "format": "prettier --write --no-error-on-unmatched-pattern packages/**/*.{ts,tsx,vue}"
   },
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "discord.js": "^14.18.0"
+  }
 }
