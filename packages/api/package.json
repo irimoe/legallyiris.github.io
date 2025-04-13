@@ -7,10 +7,11 @@
   "dependencies": {
     "@elysiajs/static": "^1.2.0",
     "@elysiajs/swagger": "^1.2.2",
-    "elysia": "^1.2.25"
+    "elysia": "^1.2.23"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "@types/bun": "^1.2.9"
   },
   "module": "src/index.js"
 }

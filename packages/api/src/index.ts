@@ -104,7 +104,6 @@ const apiRoutes = new Elysia({ prefix: '/api' })
   .use(frontingRoutes)
 
 const app = new Elysia()
-  // @ts-expect-error what
   .use(swagger({ path: '/api/docs' }))
 
   .onRequest(({ server, request }) => {
@@ -166,33 +165,35 @@ const app = new Elysia()
 
   .use(apiRoutes)
 
-  .get('/writing/:slug', ({ params, set }) =>
-    handleContentPage({
+  .get('/writing/:slug', ({ params, set }) => {
+    set.headers['content-type'] = 'text/html'
+    return handleContentPage({
       params,
-      set,
+      set: { headers: set.headers as Record<string, string> },
       type: 'posts',
       getter: getPost,
-    }),
-  )
+    })
+  })
 
-  .get('/projects/:slug', ({ params, set }) =>
-    handleContentPage({
+  .get('/projects/:slug', ({ params, set }) => {
+    set.headers['content-type'] = 'text/html'
+    return handleContentPage({
       params,
-      set,
+      set: { headers: set.headers as Record<string, string> },
       type: 'projects',
       getter: getProject,
-    }),
-  )
+    })
+  })
 
   .use(
-    // @ts-expect-error: what
     staticPlugin({
       assets: DIST_PATH,
       prefix: '/',
       alwaysStatic: true,
     }),
   )
+
   .listen(process.env.PORT || 3000)
 
 const url = `http://${app.server?.hostname}:${app.server?.port}`
-console.log(`   @web/api running : ${url}`)
+console.log(`   @web/api running : ${url}\n`)
