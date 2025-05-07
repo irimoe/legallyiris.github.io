@@ -39,7 +39,7 @@ type Link =
 const links: Link[] = [
 	{
 		name: 'github',
-		href: 'https://github.com/legallyiris',
+		href: 'https://github.com/irimoe',
 		icon: faGithub,
 	},
 	{
